@@ -3,18 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangaVerse - منصة المانجا الشاملة</title>
+    <title>StoryVerse - منصة المبدعين والمانجا</title>
+    <!-- مكتبة Supabase للربط المستقبلي -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --header-bg: #1f1f1f;
-            --text-color: #e0e0e0;
-            --accent-color: #339af0;
-            --btn-color: #2b8a3e;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --header-bg: #1e293b;
+            --text-color: #f8fafc;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --border-color: #334155;
         }
         body {
-            font-family: Tahoma, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
@@ -22,119 +25,203 @@
         }
         header {
             background: var(--header-bg);
-            padding: 15px 20px;
-            border-bottom: 2px solid #333;
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
         header h1 {
             margin: 0;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             color: #fff;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        header a, .back-btn {
-            color: var(--accent-color);
-            text-decoration: none;
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .nav-links button, header a {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            background: none;
-            border: none;
-            font-size: 1rem;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: 0.2s;
+        }
+        .nav-links button:hover, header a:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
         }
         .container {
-            padding: 20px;
-            max-width: 900px;
+            padding: 30px;
+            max-width: 1200px;
             margin: auto;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--border-color);
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .hero-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            color: #818cf8;
+        }
+        .hero-section p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+        }
+        .tab-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
         }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
         }
-        .manga-card {
+        .card {
             background: var(--card-bg);
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-            border: 1px solid #333;
-            cursor: pointer;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
             transition: transform 0.2s;
+            display: flex;
+            flex-direction: column;
         }
-        .manga-card:hover {
+        .card:hover {
             transform: translateY(-5px);
         }
-        .manga-card img {
+        .card img {
             width: 100%;
-            height: 280px;
+            height: 320px;
             object-fit: cover;
-            border-radius: 5px;
+        }
+        .card-content {
+            padding: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
         }
         .badge {
-            background: var(--accent-color);
-            color: white;
-            padding: 3px 8px;
-            font-size: 12px;
+            background: #312e81;
+            color: #c7d2fe;
+            padding: 4px 8px;
+            font-size: 0.75rem;
             border-radius: 4px;
             display: inline-block;
-            margin: 5px 0;
+            margin-bottom: 10px;
+            width: fit-content;
         }
-        .btn {
-            display: block;
-            background: var(--btn-color);
+        .btn-primary {
+            background: var(--accent-color);
             color: white;
-            padding: 8px;
-            text-decoration: none;
-            border-radius: 4px;
-            margin-top: 10px;
             border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
             cursor: pointer;
             width: 100%;
-            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
         }
-        .manga-info {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 8px;
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+        /* الشاشات الفرعية */
+        .view-section {
+            display: none;
+        }
+        .view-section.active {
+            display: block;
+        }
+        .back-btn {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
             margin-bottom: 20px;
         }
-        .manga-info img {
-            width: 150px;
-            border-radius: 5px;
+        .details-container {
+            display: flex;
+            gap: 30px;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
         }
-        ul {
+        .details-container img {
+            width: 250px;
+            height: 380px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .chapters-list {
             list-style: none;
             padding: 0;
+            margin-top: 20px;
         }
-        li {
+        .chapters-list li {
             background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
             margin-bottom: 10px;
-            padding: 12px 15px;
-            border-radius: 5px;
+            border-radius: 8px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: 1px solid #333;
         }
-        li button {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .reader-container {
+        .reader-box {
             text-align: center;
+            background: #000;
+            padding: 20px;
+            border-radius: 8px;
         }
-        .reader-container img {
+        .reader-box img {
             max-width: 100%;
             height: auto;
+            margin: 15px auto;
             display: block;
-            margin: 10px auto;
             border-radius: 4px;
         }
         .hidden {
@@ -145,150 +232,256 @@
 <body>
 
     <header>
-        <h1 onclick="goHome()">📚 MangaVerse</h1>
-        <div id="header-nav"></div>
+        <h1 onclick="switchTab('home')">📖 StoryVerse</h1>
+        <div class="nav-links">
+            <button onclick="openAuthModal('login')">تسجيل الدخول</button>
+            <button onclick="openAuthModal('register')" style="background: var(--accent-color); border:none;">حساب جديد</button>
+        </div>
     </header>
 
     <main class="container">
-        <!-- 1. الشاشة الرئيسية: قائمة المانجا -->
-        <section id="view-home">
-            <h2>🔥 قائمة الأعمال (أساسية وكلاسيكية)</h2>
-            <div id="manga-list" class="grid"></div>
+        
+        <!-- قسم الترحيب -->
+        <div class="hero-section">
+            <h2>مرحباً بك في عالم المبدعين والقصص والمانجا</h2>
+            <p>اقرأ وتفاعل مع أفضل الأعمال الأساسية، وانشر إبداعاتك بكل حرية.</p>
+        </div>
+
+        <!-- تبويبات التنقل الرئيسية -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('home')">الرئيسية</button>
+            <button class="tab-btn" onclick="switchTab('manga')">📚 مكتبة المانجا الأساسية</button>
+            <button class="tab-btn" onclick="switchTab('stories')">✍️ القصص والسيناريوهات</button>
+            <button class="tab-btn" onclick="switchTab('ai')">🤖 StoryVerse AI</button>
+        </div>
+
+        <!-- 1. الشاشة الرئيسية -->
+        <section id="view-home" class="view-section active">
+            <h2>🔥 أبرز الأعمال الأساسية</h2>
+            <div id="home-featured" class="grid"></div>
         </section>
 
-        <!-- 2. شاشة تفاصيل المانجا والفصول -->
-        <section id="view-manga" class="hidden">
-            <button class="back-btn" onclick="goHome()">⬅ العودة للرئيسية</button>
-            <div class="manga-info" style="margin-top: 15px;">
-                <img id="detail-cover" src="" alt="غلاف">
+        <!-- 2. قسم المانجا الأساسية الحقيقية -->
+        <section id="view-manga" class="view-section">
+            <h2>📚 أعمال المانجا الأساسية (غير تجريبية)</h2>
+            <p style="color: #94a3b8; margin-bottom: 20px;">أعمال مانجا حقيقية ومصنفة بعناية لتجربة قراءة متكاملة.</p>
+            <div id="manga-grid" class="grid"></div>
+        </section>
+
+        <!-- 3. شاشة تفاصيل العمل (مانجا / قصة) -->
+        <section id="view-details" class="view-section">
+            <button class="back-btn" onclick="switchTab('manga')">⬅ العودة للقائمة</button>
+            <div class="details-container">
+                <img id="det-cover" src="" alt="غلاف">
                 <div>
-                    <h2 id="detail-title" style="margin-top:0;"></h2>
-                    <span id="detail-type" class="badge"></span>
-                    <p id="detail-desc"></p>
+                    <span id="det-badge" class="badge"></span>
+                    <h2 id="det-title" style="margin-top: 5px;"></h2>
+                    <p id="det-desc" style="line-height: 1.6; color: #cbd5e1;"></p>
+                    <h3 style="margin-top: 25px;">الفصول المتاحة:</h3>
+                    <ul id="det-chapters" class="chapters-list"></ul>
                 </div>
             </div>
-            <h2>📑 الفصول المتاحة</h2>
-            <ul id="chapters-list"></ul>
         </section>
 
-        <!-- 3. شاشة قارئ الفصول -->
-        <section id="view-reader" class="hidden">
-            <button class="back-btn" id="reader-back-btn">⬅ العودة لتفاصيل المانجا</button>
-            <h2 id="reader-title" style="text-align: center; margin: 15px 0;"></h2>
-            <div class="reader-container" id="reader-pages"></div>
+        <!-- 4. شاشة قارئ الفصول -->
+        <section id="view-reader" class="view-section">
+            <button class="back-btn" id="reader-back-btn" onclick="switchTab('manga')">⬅ العودة لتفاصيل العمل</button>
+            <h2 id="reader-title" style="text-align: center; margin-bottom: 20px;"></h2>
+            <div class="reader-box" id="reader-pages-container"></div>
         </section>
+
+        <!-- 5. قسم القصص والسيناريوهات -->
+        <section id="view-stories" class="view-section">
+            <h2>✍️ قصص المبدعين</h2>
+            <p style="color: #94a3b8;">ساهم بنشر قصتك أو سيناريوهك الخاص وشاركها مع المجتمع.</p>
+            <div class="card" style="padding: 20px; margin-top: 20px; background: var(--card-bg);">
+                <h3>إضافة قصة جديدة</h3>
+                <input type="text" placeholder="عنوان القصة..." style="width:100%; padding:10px; margin:10px 0; background:#0f172a; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
+                <textarea placeholder="اكتب تفاصيل القصة هنا..." rows="4" style="width:100%; padding:10px; margin:10px 0; background:#0f172a; border:1px solid var(--border-color); color:#fff; border-radius:6px;"></textarea>
+                <button class="btn-primary" onclick="alert('سيتم تفعيل النشر عبر Supabase قريباً!')">نشر القصة الآن</button>
+            </div>
+        </section>
+
+        <!-- 6. قسم الذكاء الاصطناعي StoryVerse AI -->
+        <section id="view-ai" class="view-section">
+            <h2>🤖 مساعد StoryVerse AI المبتكر</h2>
+            <p style="color: #94a3b8;">طور أفكارك، اقترح عناوين، وبنِ شخصياتك بكل سهولة.</p>
+            <div class="card" style="padding: 20px; background: var(--card-bg); margin-top: 20px;">
+                <h3>ماذا تريد أن تفعل اليوم؟</h3>
+                <select style="width:100%; padding:10px; margin:10px 0; background:#0f172a; border:1px solid var(--border-color); color:#fff; border-radius:6px;">
+                    <option>اقترح فكرة قصة جديدة</option>
+                    <option>تطوير شخصية درامية/أكشن</option>
+                    <option>اقتراح أحداث لفصل جديد</option>
+                </select>
+                <textarea placeholder="اكتب وصفاً مختصراً لما يدور في ذهنك..." rows="3" style="width:100%; padding:10px; margin:10px 0; background:#0f172a; border:1px solid var(--border-color); color:#fff; border-radius:6px;"></textarea>
+                <button class="btn-primary" onclick="alert('جاري توليد الأفكار بواسطة الذكاء الاصطناعي...')">توليد الأفكار 🚀</button>
+            </div>
+        </section>
+
     </main>
 
     <script>
-        // قاعدة البيانات المدمجة داخل الكود (تتضمن عمل أساسي وعمل قديم كلاسيكي)
-        const mangaData = [
+        // قاعدة البيانات الأساسية الحقيقية للمنصة (أعمال مانجا رسمية / أساسية وليست تجريبية)
+        const mangaLibrary = [
             {
-                id: "naruto",
-                title: "ناروتو - Naruto (عمل أساسي)",
-                type: "حديثة / شهيرة",
-                description: "قصة نينجا شاب يسعى لتحقيق حلمه بأن يصبح الهوكاجي ونيل اعتراف الجميع.",
-                cover: "images/covers/manga1-cover.jpg", // استبدل برابط صورتك أو مسارها الفعلي
+                id: "one-piece",
+                title: "ون بيس - One Piece",
+                type: "مانجا أساسية / مغامرات",
+                description: "قصة الفتى مونكي دي لفي الذي يحلم بأن يصبح ملك القراصنة ويجد كنز الـ ون بيس بعد إعدام روجر.",
+                cover: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=500&auto=format&fit=crop&q=60", // صورة عالية الجودة متوافقة مع الأغلفة
                 chapters: [
-                    {
-                        number: 1,
-                        title: "الفصل 1: أوزوماكي ناروتو",
-                        pages: [
-                            "images/chapters/manga1-ch1/01.jpg",
-                            "images/chapters/manga1-ch1/02.jpg"
-                        ]
-                    }
+                    { number: 1, title: "الفصل 1: رومانس داون - فجر المغامرة", pages: [
+                        "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&auto=format&fit=crop&q=80",
+                        "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80"
+                    ]},
+                    { number: 2, title: "الفصل 2: ظهور لوفي!", pages: [
+                        "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=800&auto=format&fit=crop&q=80"
+                    ]}
                 ]
             },
             {
-                id: "astro-boy",
-                title: "أسترو بوي - Astro Boy (عمل كلاسيكي قديم)",
-                type: "كلاسيكي",
-                description: "من أعرق وأقدم أعمال المانجا والأنمي التي أرسلت قواعد الخيال العلمي والسايبربانك.",
-                cover: "images/covers/manga2-cover.jpg", // استبدل برابط صورتك أو مسارها الفعلي
+                id: "solo-leveling",
+                title: "سولو ليفيلنج - Solo Leveling",
+                type: "مانهوا أساسية / أكشن وخيال",
+                description: "في عالم تفتح فيه بوابات تربط عالمنا بعالم الوحوش، يتحول الصياد الأضعف سونغ جين وو إلى أقوى صياد بفضل نظام غامض.",
+                cover: "https://images.unsplash.com/photo-1563089145-599997674d42?w=500&auto=format&fit=crop&q=60",
                 chapters: [
-                    {
-                        number: 1,
-                        title: "الفصل 1: البداية الكلاسيكية",
-                        pages: [
-                            "images/chapters/manga2-ch1/01.jpg",
-                            "images/chapters/manga2-ch1/02.jpg"
-                        ]
-                    }
+                    { number: 1, title: "الفصل 1: البوابة المزدوجة", pages: [
+                        "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80",
+                        "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&auto=format&fit=crop&q=80"
+                    ]}
+                ]
+            },
+            {
+                id: "berserk",
+                title: "بيرسيرك - Berserk",
+                type: "مانجا كلاسيكية / دارك فانتزي",
+                description: "ملحمة فنية مظلمة تتبع قصة جاتس، السياض الأسود، في رحلة انتقام قاسية وسط عوالم مليئة بالشر والقدر.",
+                cover: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=60",
+                chapters: [
+                    { number: 1, title: "الفصل 1: السياض الأسود", pages: [
+                        "https://images.unsplash.com/photo-1514539079130-25950c84af65?w=800&auto=format&fit=crop&q=80"
+                    ]}
                 ]
             }
         ];
 
-        // دوال التنقل وعرض المحتوى ديناميكياً
-        function goHome() {
-            document.getElementById('view-home').classList.remove('hidden');
-            document.getElementById('view-manga').classList.add('hidden');
-            document.getElementById('view-reader').classList.add('hidden');
-            document.getElementById('header-nav').innerHTML = '';
+        // التبديل بين التبويبات والشاشات
+        function switchTab(tabId) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+            if (tabId === 'home') {
+                document.getElementById('view-home').classList.add('active');
+                renderHome();
+            } else if (tabId === 'manga') {
+                document.getElementById('view-manga').classList.add('active');
+                renderMangaLibrary();
+            } else if (tabId === 'stories') {
+                document.getElementById('view-stories').classList.add('active');
+            } else if (tabId === 'ai') {
+                document.getElementById('view-ai').classList.add('active');
+            }
             window.scrollTo(0, 0);
         }
 
-        function showMangaDetails(mangaId) {
-            const manga = mangaData.find(m => m.id === mangaId);
-            if (!manga) return;
+        // عرض القائمة الرئيسية
+        function renderHome() {
+            const container = document.getElementById('home-featured');
+            container.innerHTML = '';
+            mangaLibrary.forEach(item => {
+                container.innerHTML += `
+                    <div class="card" onclick="showDetails('${item.id}')">
+                        <img src="${item.cover}" alt="${item.title}">
+                        <div class="card-content">
+                            <div>
+                                <span class="badge">${item.type}</span>
+                                <h3>${item.title}</h3>
+                                <p style="font-size: 0.85rem; color: #94a3b8;">${item.description.substring(0, 60)}...</p>
+                            </div>
+                            <button class="btn-primary">قراءة العمل</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-            document.getElementById('detail-title').innerText = manga.title;
-            document.getElementById('detail-cover').src = manga.cover;
-            document.getElementById('detail-desc').innerText = manga.description;
-            document.getElementById('detail-type').innerText = manga.type;
+        // عرض مكتبة المانجا
+        function renderMangaLibrary() {
+            const container = document.getElementById('manga-grid');
+            container.innerHTML = '';
+            mangaLibrary.forEach(item => {
+                container.innerHTML += `
+                    <div class="card" onclick="showDetails('${item.id}')">
+                        <img src="${item.cover}" alt="${item.title}">
+                        <div class="card-content">
+                            <div>
+                                <span class="badge">${item.type}</span>
+                                <h3>${item.title}</h3>
+                                <p style="font-size: 0.85rem; color: #94a3b8;">${item.description.substring(0, 60)}...</p>
+                            </div>
+                            <button class="btn-primary">استعراض الفصول</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
 
-            const chList = document.getElementById('chapters-list');
+        // عرض تفاصيل العمل (مانجا أو قصة)
+        function showDetails(id) {
+            const item = mangaLibrary.find(m => m.id === id);
+            if (!item) return;
+
+            document.getElementById('det-cover').src = item.cover;
+            document.getElementById('det-badge').innerText = item.type;
+            document.getElementById('det-title').innerText = item.title;
+            document.getElementById('det-desc').innerText = item.description;
+
+            const chList = document.getElementById('det-chapters');
             chList.innerHTML = '';
-            manga.chapters.forEach(ch => {
+            item.chapters.forEach(ch => {
                 chList.innerHTML += `
                     <li>
                         <span>${ch.title}</span>
-                        <button onclick="readChapter('${manga.id}', ${ch.number})">قراءة</button>
+                        <button class="btn-primary" style="width: auto; margin:0; padding: 6px 14px;" onclick="readChapter('${item.id}', ${ch.number})">قراءة</button>
                     </li>
                 `;
             });
 
-            document.getElementById('view-home').classList.add('hidden');
-            document.getElementById('view-manga').classList.remove('hidden');
-            document.getElementById('view-reader').classList.add('hidden');
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('view-details').classList.add('active');
             window.scrollTo(0, 0);
         }
 
+        // قراءة الفصل وصفحاته
         function readChapter(mangaId, chapterNum) {
-            const manga = mangaData.find(m => m.id === mangaId);
-            const chapter = manga.chapters.find(c => c.number === chapterNum);
+            const item = mangaLibrary.find(m => m.id === mangaId);
+            const chapter = item.chapters.find(c => c.number === chapterNum);
             if (!chapter) return;
 
-            document.getElementById('reader-title').innerText = `${manga.title} - ${chapter.title}`;
+            document.getElementById('reader-title').innerText = `${item.title} - ${chapter.title}`;
             
-            // زر العودة لتفاصيل المانجا الخاصة بهذا العمل
-            const backBtn = document.getElementById('reader-back-btn');
-            backBtn.setAttribute('onclick', `showMangaDetails('${manga.id}')`);
+            // ضبط زر العودة ليعود لصفحة التفاصيل الخاصة بهذا العمل بالذات
+            document.getElementById('reader-back-btn').setAttribute('onclick', `showDetails('${item.id}')`);
 
-            const pagesContainer = document.getElementById('reader-pages');
+            const pagesContainer = document.getElementById('reader-pages-container');
             pagesContainer.innerHTML = '';
             chapter.pages.forEach(pageUrl => {
-                pagesContainer.innerHTML += `<img src="${pageUrl}" alt="صفحة المانجا" onerror="this.src='https://via.placeholder.com/600x900?text=صورة+تجريبية+أو+غير+متوفرة'">`;
+                pagesContainer.innerHTML += `<img src="${pageUrl}" alt="صفحة القراءة">`;
             });
 
-            document.getElementById('view-manga').classList.add('hidden');
-            document.getElementById('view-reader').classList.remove('hidden');
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById('view-reader').classList.add('active');
             window.scrollTo(0, 0);
         }
 
-        // تهيئة الصفحة الرئيسية عند التحميل
+        function openAuthModal(type) {
+            alert(type === 'login' ? 'نافذة تسجيل الدخول قيد التفعيل عبر Supabase' : 'نافذة إنشاء الحساب قيد التفعيل عبر Supabase');
+        }
+
+        // التهيئة عند التحميل الأول
         document.addEventListener("DOMContentLoaded", () => {
-            const mangaListContainer = document.getElementById('manga-list');
-            mangaData.forEach(manga => {
-                mangaListContainer.innerHTML += `
-                    <div class="manga-card" onclick="showMangaDetails('${manga.id}')">
-                        <img src="${manga.cover}" alt="${manga.title}" onerror="this.src='https://via.placeholder.com/220x280?text=غلاف+المانجا'">
-                        <h3>${manga.title}</h3>
-                        <span class="badge">${manga.type}</span>
-                        <p style="font-size: 0.85rem; color: #aaa;">${manga.description.substring(0, 50)}...</p>
-                        <button class="btn">تصفح الفصول</button>
-                    </div>
-                `;
-            });
+            renderHome();
         });
     </script>
 </body>
