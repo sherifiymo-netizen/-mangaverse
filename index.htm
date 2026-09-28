@@ -2,2547 +2,164 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b14">
-<title>MangaVerse</title>
-
-<style>
-:root{
-  --bg:#080b14;
-  --bg2:#0f1422;
-  --card:#151b2b;
-  --card2:#1b2335;
-  --primary:#7c5cff;
-  --primary2:#9b82ff;
-  --text:#f5f7ff;
-  --muted:#9aa4bb;
-  --border:#283148;
-  --gold:#ffd166;
-  --danger:#ff5c75;
-  --success:#43d19e;
-}
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-}
-
-html{scroll-behavior:smooth}
-
-body{
-  background:
-    radial-gradient(circle at 20% 0%,#21175c 0,transparent 30%),
-    radial-gradient(circle at 90% 20%,#182b55 0,transparent 25%),
-    var(--bg);
-  color:var(--text);
-  min-height:100vh;
-}
-
-button,input,textarea,select{font:inherit}
-
-button{
-  cursor:pointer;
-  border:0;
-}
-
-.hidden{display:none!important}
-
-.container{
-  width:min(1200px,calc(100% - 28px));
-  margin:auto;
-}
-
-header{
-  position:sticky;
-  top:0;
-  z-index:1000;
-  background:rgba(8,11,20,.88);
-  backdrop-filter:blur(18px);
-  border-bottom:1px solid var(--border);
-}
-
-.nav{
-  height:70px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-}
-
-.logo{
-  color:white;
-  font-size:22px;
-  font-weight:900;
-  text-decoration:none;
-}
-
-.logo span{color:var(--primary2)}
-
-.nav-actions{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-}
-
-.btn{
-  background:var(--card2);
-  color:white;
-  border:1px solid var(--border);
-  padding:10px 15px;
-  border-radius:12px;
-  transition:.2s;
-}
-
-.btn:hover{
-  transform:translateY(-1px);
-  border-color:var(--primary);
-}
-
-.btn.primary{
-  background:linear-gradient(135deg,var(--primary),#5940d9);
-  border-color:transparent;
-}
-
-.btn.danger{
-  background:#3b1823;
-  color:#ff9aaa;
-}
-
-.coin{
-  background:#2b2410;
-  color:var(--gold);
-  border:1px solid #51421a;
-  padding:9px 13px;
-  border-radius:20px;
-  font-weight:800;
-}
-
-.hero{
-  margin-top:25px;
-  min-height:360px;
-  border:1px solid var(--border);
-  border-radius:25px;
-  overflow:hidden;
-  position:relative;
-  display:flex;
-  align-items:center;
-  padding:45px;
-  background:
-    linear-gradient(90deg,rgba(8,11,20,.98),rgba(8,11,20,.72),rgba(8,11,20,.15)),
-    linear-gradient(135deg,#30206d,#101b35);
-}
-
-.hero-content{max-width:650px}
-
-.badge{
-  display:inline-block;
-  padding:7px 12px;
-  border-radius:30px;
-  background:#211a48;
-  color:#bcaeff;
-  font-size:13px;
-  margin-bottom:15px;
-}
-
-.hero h1{
-  font-size:clamp(34px,6vw,65px);
-  line-height:1.05;
-  margin-bottom:17px;
-}
-
-.hero h1 span{color:var(--primary2)}
-
-.hero p{
-  color:#bdc5d8;
-  line-height:1.8;
-  max-width:600px;
-}
-
-.hero-buttons{
-  display:flex;
-  gap:10px;
-  margin-top:25px;
-  flex-wrap:wrap;
-}
-
-section{margin-top:35px}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:end;
-  gap:15px;
-  margin-bottom:17px;
-}
-
-.section-head h2{font-size:25px}
-
-.section-head p{
-  color:var(--muted);
-  font-size:14px;
-}
-
-.search{
-  width:100%;
-  background:var(--card);
-  color:white;
-  border:1px solid var(--border);
-  border-radius:15px;
-  padding:14px 16px;
-  outline:none;
-  margin-bottom:14px;
-}
-
-.search:focus{border-color:var(--primary)}
-
-.filters{
-  display:flex;
-  gap:8px;
-  overflow:auto;
-  padding-bottom:5px;
-}
-
-.filter{
-  white-space:nowrap;
-  padding:9px 14px;
-  border-radius:20px;
-  background:var(--card);
-  color:var(--muted);
-  border:1px solid var(--border);
-}
-
-.filter.active{
-  background:var(--primary);
-  color:white;
-  border-color:var(--primary);
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:16px;
-}
-
-.card{
-  background:linear-gradient(180deg,var(--card2),var(--card));
-  border:1px solid var(--border);
-  border-radius:17px;
-  overflow:hidden;
-  transition:.25s;
-}
-
-.card:hover{
-  transform:translateY(-5px);
-  border-color:#6753d9;
-}
-
-.cover{
-  width:100%;
-  aspect-ratio:2/3;
-  object-fit:cover;
-  display:block;
-  background:#20283b;
-}
-
-.card-body{padding:13px}
-
-.card h3{
-  font-size:17px;
-  margin-bottom:5px;
-}
-
-.card p{
-  color:var(--muted);
-  font-size:13px;
-  line-height:1.6;
-}
-
-.meta{
-  display:flex;
-  justify-content:space-between;
-  gap:5px;
-  color:var(--muted);
-  font-size:12px;
-  margin-top:10px;
-}
-
-.card-actions{
-  display:flex;
-  gap:7px;
-  margin-top:12px;
-}
-
-.small-btn{
-  flex:1;
-  padding:9px;
-  border-radius:9px;
-  background:#252e44;
-  color:white;
-}
-
-.small-btn.primary{background:var(--primary)}
-
-.layout{
-  display:grid;
-  grid-template-columns:1fr 330px;
-  gap:20px;
-}
-
-.panel{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:20px;
-}
-
-.profile{
-  text-align:center;
-}
-
-.avatar{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  margin:auto auto 12px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,var(--primary),#30b8ff);
-  font-size:35px;
-  font-weight:900;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:15px;
-}
-
-.stat{
-  background:var(--bg2);
-  border-radius:12px;
-  padding:13px 5px;
-}
-
-.stat strong{
-  display:block;
-  font-size:19px;
-}
-
-.stat span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.reader{
-  background:#020308;
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:hidden;
-}
-
-.reader-toolbar{
-  position:sticky;
-  top:70px;
-  z-index:20;
-  background:rgba(8,11,20,.95);
-  border-bottom:1px solid var(--border);
-  padding:10px;
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  align-items:center;
-}
-
-.reader-pages{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-
-.reader-pages.page-mode{
-  min-height:600px;
-  justify-content:center;
-  padding:20px;
-}
-
-.reader-pages img{
-  max-width:100%;
-  width:auto;
-  display:block;
-  transition:.2s;
-  user-select:none;
-}
-
-.reader-pages.page-mode img{
-  max-height:75vh;
-  object-fit:contain;
-}
-
-.reader-info{
-  padding:15px;
-  color:var(--muted);
-  text-align:center;
-}
-
-.progress{
-  height:5px;
-  background:#202638;
-}
-
-.progress i{
-  display:block;
-  height:100%;
-  background:var(--primary);
-  width:0;
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  z-index:3000;
-  background:rgba(0,0,0,.75);
-  backdrop-filter:blur(7px);
-  display:grid;
-  place-items:center;
-  padding:15px;
-}
-
-.modal-box{
-  width:min(650px,100%);
-  max-height:90vh;
-  overflow:auto;
-  background:#111727;
-  border:1px solid var(--border);
-  border-radius:20px;
-  padding:22px;
-}
-
-.modal-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:18px;
-}
-
-.close{
-  width:36px;
-  height:36px;
-  border-radius:50%;
-  background:#252e44;
-  color:white;
-}
-
-.form{
-  display:grid;
-  gap:12px;
-}
-
-.field{
-  display:grid;
-  gap:6px;
-}
-
-.field label{
-  color:#cdd4e4;
-  font-size:14px;
-}
-
-.field input,
-.field textarea,
-.field select{
-  width:100%;
-  background:var(--bg2);
-  color:white;
-  border:1px solid var(--border);
-  padding:12px;
-  border-radius:11px;
-  outline:none;
-}
-
-.field textarea{
-  min-height:100px;
-  resize:vertical;
-}
-
-.file-box{
-  border:1px dashed #46506b;
-  border-radius:14px;
-  padding:20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.preview{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:10px;
-}
-
-.preview img{
-  width:75px;
-  height:100px;
-  object-fit:cover;
-  border-radius:8px;
-}
-
-.chapter-list{
-  display:grid;
-  gap:8px;
-  margin-top:15px;
-}
-
-.chapter{
-  background:var(--bg2);
-  border:1px solid var(--border);
-  padding:13px;
-  border-radius:12px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:10px;
-}
-
-.room{
-  height:360px;
-  display:grid;
-  grid-template-columns:180px 1fr;
-  border:1px solid var(--border);
-  border-radius:15px;
-  overflow:hidden;
-}
-
-.rooms{
-  background:var(--bg2);
-  padding:10px;
-}
-
-.room-item{
-  padding:12px;
-  border-radius:10px;
-  margin-bottom:7px;
-  cursor:pointer;
-}
-
-.room-item.active,
-.room-item:hover{
-  background:#292148;
-}
-
-.chat{
-  display:flex;
-  flex-direction:column;
-  min-width:0;
-}
-
-.messages{
-  flex:1;
-  padding:15px;
-  overflow:auto;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.msg{
-  background:var(--bg2);
-  padding:9px 12px;
-  border-radius:10px;
-  max-width:80%;
-}
-
-.msg.me{
-  align-self:flex-start;
-  background:#30255f;
-}
-
-.chat-input{
-  display:flex;
-  gap:8px;
-  padding:10px;
-  border-top:1px solid var(--border);
-}
-
-.chat-input input{
-  flex:1;
-  background:var(--bg2);
-  border:1px solid var(--border);
-  color:white;
-  padding:11px;
-  border-radius:10px;
-}
-
-.ai{
-  position:fixed;
-  bottom:20px;
-  left:20px;
-  z-index:1500;
-}
-
-.ai-button{
-  width:58px;
-  height:58px;
-  border-radius:50%;
-  background:linear-gradient(135deg,#7c5cff,#25c9ff);
-  color:white;
-  font-size:24px;
-  box-shadow:0 10px 35px #0008;
-}
-
-.ai-box{
-  position:absolute;
-  bottom:70px;
-  left:0;
-  width:min(350px,calc(100vw - 35px));
-  height:450px;
-  background:#111727;
-  border:1px solid var(--border);
-  border-radius:18px;
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-}
-
-.ai-head{
-  padding:14px;
-  background:#191f32;
-  display:flex;
-  justify-content:space-between;
-}
-
-.ai-messages{
-  flex:1;
-  overflow:auto;
-  padding:12px;
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-.ai-msg{
-  background:#20283b;
-  padding:10px;
-  border-radius:10px;
-  font-size:13px;
-}
-
-.ai-msg.user{
-  background:#322765;
-}
-
-.ai-input{
-  display:flex;
-  gap:5px;
-  padding:8px;
-}
-
-.ai-input input{
-  flex:1;
-  background:var(--bg2);
-  border:1px solid var(--border);
-  color:white;
-  padding:9px;
-  border-radius:9px;
-}
-
-.toast{
-  position:fixed;
-  top:85px;
-  left:50%;
-  transform:translateX(-50%);
-  background:#192239;
-  border:1px solid var(--border);
-  padding:12px 18px;
-  border-radius:12px;
-  z-index:5000;
-  box-shadow:0 10px 35px #0008;
-}
-
-footer{
-  margin-top:60px;
-  padding:35px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid var(--border);
-}
-
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(3,1fr)}
-  .layout{grid-template-columns:1fr}
-}
-
-@media(max-width:650px){
-  .grid{grid-template-columns:repeat(2,1fr)}
-  .hero{padding:30px 22px;min-height:390px}
-  .nav{height:auto;padding:12px 0}
-  .room{grid-template-columns:1fr}
-  .rooms{display:flex;overflow:auto}
-  .room-item{white-space:nowrap}
-  .stats{grid-template-columns:repeat(3,1fr)}
-}
-
-@media(max-width:420px){
-  .grid{grid-template-columns:1fr 1fr;gap:9px}
-  .card-body{padding:10px}
-  .card h3{font-size:14px}
-  .coin{font-size:12px}
-}
-</style>
-</head>
-
-<body>
-
-<header>
-  <div class="container nav">
-    <a href="#" class="logo">Manga<span>Verse</span> 📚</a>
-
-    <div class="nav-actions">
-      <span class="coin" id="coinDisplay">50 🪙</span>
-      <button class="btn" onclick="openProfile()">👤 الحساب</button>
-      <button class="btn primary" id="loginNav" onclick="openAuth()">تسجيل الدخول</button>
-    </div>
-  </div>
-</header>
-
-<main class="container">
-
-<section class="hero">
-  <div class="hero-content">
-    <span class="badge">✦ منصة المانغا العربية</span>
-
-    <h1>
-      عالمك يبدأ<br>
-      من <span>MangaVerse</span>
-    </h1>
-
-    <p>
-      اكتشف المانغا، اقرأ الفصول، احفظ أعمالك المفضلة،
-      وانشر أعمالك الخاصة داخل منصتك.
-    </p>
-
-    <div class="hero-buttons">
-      <button class="btn primary" onclick="scrollToSection('library')">
-        📚 استكشف المانغا
-      </button>
-
-      <button class="btn" onclick="openPublish()">
-        ➕ انشر مانغا
-      </button>
-    </div>
-  </div>
-</section>
-
-<section id="library">
-
-  <div class="section-head">
-    <div>
-      <h2>📚 مكتبة MangaVerse</h2>
-      <p>اكتشف الأعمال الموجودة في المنصة</p>
-    </div>
-  </div>
-
-  <input
-    class="search"
-    id="searchInput"
-    placeholder="🔎 ابحث عن مانغا أو مؤلف..."
-    oninput="renderManga()"
-  >
-
-  <div class="filters">
-    <button class="filter active" onclick="setCategory('الكل',this)">الكل</button>
-    <button class="filter" onclick="setCategory('أكشن',this)">⚔️ أكشن</button>
-    <button class="filter" onclick="setCategory('فانتازيا',this)">✨ فانتازيا</button>
-    <button class="filter" onclick="setCategory('رعب',this)">👻 رعب</button>
-    <button class="filter" onclick="setCategory('دراما',this)">🎭 دراما</button>
-  </div>
-
-  <div class="grid" id="mangaGrid"></div>
-
-</section>
-
-<section id="favorites">
-
-  <div class="section-head">
-    <div>
-      <h2>❤️ المفضلة</h2>
-      <p>الأعمال التي حفظتها</p>
-    </div>
-  </div>
-
-  <div class="grid" id="favoriteGrid"></div>
-
-</section>
-
-<section>
-
-  <div class="section-head">
-    <div>
-      <h2>💬 مجتمع القراء</h2>
-      <p>تحدث مع القراء داخل الرومات</p>
-    </div>
-  </div>
-
-  <div class="room">
-
-    <div class="rooms">
-
-      <div class="room-item active">
-        💬 العامة
-      </div>
-
-      <div class="room-item">
-        🎨 المبدعون
-      </div>
-
-      <div class="room-item">
-        ⚔️ أكشن
-      </div>
-
-    </div>
-
-    <div class="chat">
-
-      <div class="messages" id="messages">
-        <div class="msg">
-          <b>النظام:</b>
-          أهلاً بك في مجتمع MangaVerse 👋
-        </div>
-      </div>
-
-      <div class="chat-input">
-        <input
-          id="chatInput"
-          placeholder="اكتب رسالتك..."
-          onkeydown="if(event.key==='Enter')sendChat()"
-        >
-        <button class="btn primary" onclick="sendChat()">إرسال</button>
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="profileSection" class="hidden">
-
-  <div class="layout">
-
-    <div class="panel profile">
-
-      <div class="avatar" id="profileAvatar">M</div>
-
-      <h2 id="profileName">قارئ MangaVerse</h2>
-
-      <p id="profileUsername" style="color:var(--muted)">
-        @reader
-      </p>
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong id="statFav">0</strong>
-          <span>مفضلة</span>
-        </div>
-
-        <div class="stat">
-          <strong id="statPublished">0</strong>
-          <span>منشورة</span>
-        </div>
-
-        <div class="stat">
-          <strong id="statRead">0</strong>
-          <span>فصول</span>
-        </div>
-
-      </div>
-
-      <br>
-
-      <button class="btn danger" onclick="logout()">
-        تسجيل الخروج
-      </button>
-
-    </div>
-
-    <div class="panel">
-
-      <h2>📤 نشر مانغاتي</h2>
-
-      <p style="color:var(--muted);margin:8px 0 15px">
-        يمكنك إنشاء مانغا وإضافة الغلاف والفصول وصفحاتها.
-      </p>
-
-      <button class="btn primary" onclick="openPublish()">
-        ➕ نشر مانغا جديدة
-      </button>
-
-    </div>
-
-  </div>
-
-</section>
-
-<section id="myMangaSection" class="hidden">
-
-  <div class="section-head">
-    <div>
-      <h2>📦 مانغاتي</h2>
-      <p>الأعمال التي نشرتها بهذا الحساب</p>
-    </div>
-  </div>
-
-  <div class="grid" id="myMangaGrid"></div>
-
-</section>
-
-</main>
-
-<footer>
-  MangaVerse © 2026
-  <br>
-  منصة تجريبية — جميع البيانات محفوظة محلياً في هذا المتصفح
-</footer>
-
-
-<!-- AUTH -->
-
-<div class="modal hidden" id="authModal">
-
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h2 id="authTitle">🔐 تسجيل الدخول</h2>
-      <button class="close" onclick="closeModal('authModal')">×</button>
-    </div>
-
-    <form class="form" onsubmit="authSubmit(event)">
-
-      <div class="field">
-        <label>اسم المستخدم</label>
-        <input id="authUsername" required placeholder="مثلاً: manga_reader">
-      </div>
-
-      <div class="field">
-        <label>كلمة المرور</label>
-        <input id="authPassword" type="password" required>
-      </div>
-
-      <button class="btn primary" id="authSubmitBtn">
-        دخول
-      </button>
-
-    </form>
-
-    <br>
-
-    <button
-      class="btn"
-      style="width:100%"
-      onclick="toggleAuthMode()"
-      id="authSwitch"
-    >
-      ليس لديك حساب؟ إنشاء حساب
-    </button>
-
-  </div>
-
-</div>
-
-
-<!-- PUBLISH -->
-
-<div class="modal hidden" id="publishModal">
-
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h2>📤 نشر مانغا جديدة</h2>
-      <button class="close" onclick="closeModal('publishModal')">×</button>
-    </div>
-
-    <form class="form" onsubmit="publishManga(event)">
-
-      <div class="field">
-        <label>اسم المانغا</label>
-        <input id="mangaTitle" required placeholder="مثلاً: عرش الظلال">
-      </div>
-
-      <div class="field">
-        <label>المؤلف</label>
-        <input id="mangaAuthor" required placeholder="اسم المؤلف">
-      </div>
-
-      <div class="field">
-        <label>التصنيف</label>
-
-        <select id="mangaCategory">
-          <option>أكشن</option>
-          <option>فانتازيا</option>
-          <option>رعب</option>
-          <option>دراما</option>
-        </select>
-
-      </div>
-
-      <div class="field">
-        <label>الوصف</label>
-        <textarea id="mangaDescription" required placeholder="اكتب نبذة عن المانغا"></textarea>
-      </div>
-
-      <div class="field">
-
-        <label>🖼️ غلاف المانغا</label>
-
-        <div class="file-box">
-
-          اختر صورة الغلاف
-
-          <br><br>
-
-          <input
-            id="coverInput"
-            type="file"
-            accept="image/*"
-            required
-            onchange="previewCover(event)"
-          >
-
-          <div class="preview" id="coverPreview"></div>
-
-        </div>
-
-      </div>
-
-      <div class="field">
-
-        <label>📖 صفحات الفصل الأول</label>
-
-        <div class="file-box">
-
-          يمكنك اختيار عدة صور معاً
-
-          <br><br>
-
-          <input
-            id="pagesInput"
-            type="file"
-            accept="image/*"
-            multiple
-            required
-            onchange="previewPages(event)"
-          >
-
-          <div class="preview" id="pagesPreview"></div>
-
-        </div>
-
-      </div>
-
-      <button class="btn primary">
-        🚀 نشر المانغا
-      </button>
-
-    </form>
-
-  </div>
-
-</div>
-
-
-<!-- DETAILS -->
-
-<div class="modal hidden" id="detailsModal">
-
-  <div class="modal-box" id="detailsContent"></div>
-
-</div>
-
-
-<!-- READER -->
-
-<div class="modal hidden" id="readerModal">
-
-  <div class="modal-box" style="width:min(1000px,100%);padding:0">
-
-    <div class="reader">
-
-      <div class="reader-toolbar">
-
-        <button class="btn" onclick="closeModal('readerModal')">
-          ← خروج
-        </button>
-
-        <button class="btn" onclick="readerZoom(-.1)">
-          🔍−
-        </button>
-
-        <button class="btn" onclick="readerZoom(.1)">
-          🔍+
-        </button>
-
-        <button class="btn" onclick="toggleReaderMode()">
-          🔄 وضع القراءة
-        </button>
-
-        <button class="btn" onclick="readerBrightness(-.1)">
-          ☀️−
-        </button>
-
-        <button class="btn" onclick="readerBrightness(.1)">
-          ☀️+
-        </button>
-
-      </div>
-
-      <div class="progress">
-        <i id="readerProgress"></i>
-      </div>
-
-      <div class="reader-info" id="readerInfo"></div>
-
-      <div id="readerPages" class="reader-pages"></div>
-
-    </div>
-
-  </div>
-
-</div>
-
-
-<!-- AI -->
-
-<div class="ai">
-
-  <div class="ai-box hidden" id="aiBox">
-
-    <div class="ai-head">
-      <strong>🤖 Manga AI</strong>
-      <button class="close" onclick="toggleAI()">×</button>
-    </div>
-
-    <div class="ai-messages" id="aiMessages">
-
-      <div class="ai-msg">
-        أهلاً! 👋 أنا مساعد MangaVerse.
-        اسألني عن نوع المانغا التي تريد قراءتها.
-      </div>
-
-    </div>
-
-    <div class="ai-input">
-
-      <input
-        id="aiInput"
-        placeholder="مثلاً: أريد مانغا أكشن"
-        onkeydown="if(event.key==='Enter')sendAI()"
-      >
-
-      <button class="btn primary" onclick="sendAI()">➤</button>
-
-    </div>
-
-  </div>
-
-  <button class="ai-button" onclick="toggleAI()">🤖</button>
-
-</div>
-
-
-<div id="toast" class="toast hidden"></div>
-
-
-<script>
-
-/* =========================
-   DATABASE
-========================= */
-
-const defaultManga = [
-
-{
- id:"demo1",
- title:"فيلدورا — عرش الرماد",
- author:"MangaVerse Studio",
- category:"فانتازيا",
- description:"شاب يستيقظ داخل عالم غامض ويحمل إرثاً لم يكن يعرف بوجوده.",
- cover:createCover("فيلدورا","عرش الرماد"),
- demo:true,
- chapters:[
-  {
-   title:"الفصل 1 — الاستيقاظ",
-   pages:createDemoPages("فيلدورا")
-  }
- ]
-},
-
-{
- id:"demo2",
- title:"محارب الظلال",
- author:"MangaVerse Studio",
- category:"أكشن",
- description:"محارب غامض يطارد قوة أسطورية تهدد العالم.",
- cover:createCover("محارب","الظلال"),
- demo:true,
- chapters:[
-  {
-   title:"الفصل 1 — البداية",
-   pages:createDemoPages("محارب الظلال")
-  }
- ]
-},
-
-{
- id:"demo3",
- title:"بوابة النجوم",
- author:"MangaVerse Studio",
- category:"فانتازيا",
- description:"بوابة قديمة تفتح طريقاً إلى عالم مجهول.",
- cover:createCover("بوابة","النجوم"),
- demo:true,
- chapters:[
-  {
-   title:"الفصل 1 — البوابة",
-   pages:createDemoPages("بوابة النجوم")
-  }
- ]
-},
-
-{
- id:"demo4",
- title:"آخر صياد",
- author:"MangaVerse Studio",
- category:"أكشن",
- description:"آخر صياد في مدينة مهجورة يبحث عن الحقيقة.",
- cover:createCover("آخر","صياد"),
- demo:true,
- chapters:[
-  {
-   title:"الفصل 1 — الصياد",
-   pages:createDemoPages("آخر صياد")
-  }
- ]
-}
-
-];
-
-let manga=[];
-let users=[];
-let favorites=[];
-let currentUser=null;
-let selectedCategory="الكل";
-let authRegister=false;
-
-let reader={
- manga:null,
- chapter:null,
- zoom:1,
- brightness:1,
- pageMode:false
-};
-
-
-/* =========================
-   STORAGE
-========================= */
-
-function load(){
-
-  manga=JSON.parse(localStorage.getItem("mv_manga")||"null") || defaultManga;
-
-  users=JSON.parse(localStorage.getItem("mv_users")||"[]");
-
-  favorites=JSON.parse(localStorage.getItem("mv_favorites")||"[]");
-
-  currentUser=JSON.parse(localStorage.getItem("mv_current")||"null");
-
-  updateUI();
-  renderManga();
-  renderFavorites();
-
-}
-
-function save(){
-
-  localStorage.setItem("mv_manga",JSON.stringify(manga));
-  localStorage.setItem("mv_users",JSON.stringify(users));
-  localStorage.setItem("mv_favorites",JSON.stringify(favorites));
-
-  if(currentUser)
-    localStorage.setItem("mv_current",JSON.stringify(currentUser));
-
-}
-
-
-/* =========================
-   SVG DEMO COVERS
-========================= */
-
-function createCover(a,b){
-
-  const svg=`
-  <svg xmlns="http://www.w3.org/2000/svg" width="600" height="900">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-      <stop stop-color="#21184f"/>
-      <stop offset="1" stop-color="#111b38"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="600" height="900" fill="url(#g)"/>
-
-  <circle cx="460" cy="180" r="120" fill="#7c5cff" opacity=".25"/>
-  <circle cx="100" cy="720" r="170" fill="#29b6f6" opacity=".12"/>
-
-  <path d="M100 650 Q300 350 500 650"
-        fill="none"
-        stroke="#9b82ff"
-        stroke-width="12"
-        opacity=".7"/>
-
-  <text x="300" y="370"
-        fill="white"
-        text-anchor="middle"
-        font-size="65"
-        font-family="Arial"
-        font-weight="bold">${a}</text>
-
-  <text x="300" y="450"
-        fill="#bcaeff"
-        text-anchor="middle"
-        font-size="42"
-        font-family="Arial">${b}</text>
-
-  <text x="300" y="810"
-        fill="#ffffff"
-        opacity=".6"
-        text-anchor="middle"
-        font-size="25"
-        font-family="Arial">MANGAVERSE</text>
-
-  </svg>`;
-
-  return "data:image/svg+xml;charset=UTF-8,"+
-    encodeURIComponent(svg);
-}
-
-
-function createDemoPages(title){
-
-  return [1,2,3,4].map((n)=>{
-
-    const svg=`
-    <svg xmlns="http://www.w3.org/2000/svg" width="900" height="1300">
-      <rect width="900" height="1300" fill="#111522"/>
-      <rect x="35" y="35" width="830" height="1230"
-            fill="none" stroke="#59627a" stroke-width="5"/>
-
-      <circle cx="${200+n*130}" cy="320"
-              r="130" fill="#352a6b"/>
-
-      <path d="M150 850 Q450 450 750 850"
-            fill="none"
-            stroke="#8d79ff"
-            stroke-width="18"/>
-
-      <text x="450" y="180"
-            text-anchor="middle"
-            fill="white"
-            font-size="42"
-            font-family="Arial"
-            font-weight="bold">${title}</text>
-
-      <text x="450" y="1080"
-            text-anchor="middle"
-            fill="#b8c0d4"
-            font-size="30"
-            font-family="Arial">صفحة تجريبية ${n}</text>
-
-      <text x="450" y="1140"
-            text-anchor="middle"
-            fill="#7c5cff"
-            font-size="22"
-            font-family="Arial">MangaVerse Demo</text>
-    </svg>`;
-
-    return "data:image/svg+xml;charset=UTF-8,"+
-      encodeURIComponent(svg);
-
-  });
-
-}
-
-
-/* =========================
-   UI
-========================= */
-
-function updateUI(){
-
-  const login=document.getElementById("loginNav");
-
-  if(currentUser){
-
-    login.textContent="👤 "+currentUser.username;
-
-    document.getElementById("profileName").textContent=
-      currentUser.username;
-
-    document.getElementById("profileUsername").textContent=
-      "@"+currentUser.username;
-
-    document.getElementById("profileAvatar").textContent=
-      currentUser.username.charAt(0).toUpperCase();
-
-    const published=manga.filter(
-      m=>m.owner===currentUser.username
-    ).length;
-
-    document.getElementById("statFav").textContent=
-      favorites.length;
-
-    document.getElementById("statPublished").textContent=
-      published;
-
-    document.getElementById("myMangaSection").classList.remove("hidden");
-
-    renderMyManga();
-
-  }else{
-
-    login.textContent="تسجيل الدخول";
-
-    document.getElementById("myMangaSection")
-      .classList.add("hidden");
-
-  }
-
-}
-
-
-/* =========================
-   MANGA GRID
-========================= */
-
-function renderManga(){
-
-  const grid=document.getElementById("mangaGrid");
-
-  const search=
-    document.getElementById("searchInput")
-    .value.toLowerCase()
-    .trim();
-
-  const list=manga.filter(m=>{
-
-    const categoryOK=
-      selectedCategory==="الكل" ||
-      m.category===selectedCategory;
-
-    const searchOK=
-      !search ||
-      m.title.toLowerCase().includes(search) ||
-      m.author.toLowerCase().includes(search);
-
-    return categoryOK && searchOK;
-
-  });
-
-  grid.innerHTML=list.map(cardHTML).join("");
-
-}
-
-
-function cardHTML(m){
-
-  const fav=favorites.includes(m.id);
-
-  return `
-  <article class="card">
-
-    <img class="cover"
-         loading="lazy"
-         src="${m.cover}">
-
-    <div class="card-body">
-
-      <h3>${escapeHTML(m.title)}</h3>
-
-      <p>${escapeHTML(m.description)}</p>
-
-      <div class="meta">
-        <span>✍️ ${escapeHTML(m.author)}</span>
-        <span>⭐ 4.8</span>
-      </div>
-
-      <div class="meta">
-        <span>🏷️ ${escapeHTML(m.category)}</span>
-        <span>${m.chapters?.length||0} فصول</span>
-      </div>
-
-      <div class="card-actions">
-
-        <button
-          class="small-btn primary"
-          onclick="openDetails('${m.id}')">
-          قراءة
-        </button>
-
-        <button
-          class="small-btn"
-          onclick="toggleFavorite('${m.id}')">
-          ${fav?"❤️":"♡"}
-        </button>
-
-      </div>
-
-    </div>
-
-  </article>
-  `;
-
-}
-
-
-function renderFavorites(){
-
-  const grid=document.getElementById("favoriteGrid");
-
-  const list=manga.filter(
-    m=>favorites.includes(m.id)
-  );
-
-  grid.innerHTML=list.length
-    ? list.map(cardHTML).join("")
-    : `<div class="panel" style="grid-column:1/-1;text-align:center;color:var(--muted)">
-       لم تضف أي مانغا للمفضلة بعد ❤️
-       </div>`;
-
-}
-
-
-function renderMyManga(){
-
-  if(!currentUser)return;
-
-  const grid=document.getElementById("myMangaGrid");
-
-  const list=manga.filter(
-    m=>m.owner===currentUser.username
-  );
-
-  grid.innerHTML=list.length
-    ? list.map(m=>`
-
-      <article class="card">
-
-        <img class="cover" src="${m.cover}">
-
-        <div class="card-body">
-
-          <h3>${escapeHTML(m.title)}</h3>
-
-          <p>${escapeHTML(m.description)}</p>
-
-          <div class="meta">
-            <span>${m.category}</span>
-            <span>${m.chapters.length} فصل</span>
-          </div>
-
-          <div class="card-actions">
-
-            <button
-              class="small-btn primary"
-              onclick="openDetails('${m.id}')">
-              فتح
-            </button>
-
-            <button
-              class="small-btn"
-              onclick="deleteManga('${m.id}')">
-              🗑️
-            </button>
-
-          </div>
-
-        </div>
-
-      </article>
-
-    `).join("")
-    :
-    `<div class="panel" style="grid-column:1/-1;text-align:center">
-      لم تنشر أي مانغا بعد.
-    </div>`;
-
-}
-
-
-function setCategory(category,button){
-
-  selectedCategory=category;
-
-  document.querySelectorAll(".filter")
-    .forEach(x=>x.classList.remove("active"));
-
-  button.classList.add("active");
-
-  renderManga();
-
-}
-
-
-/* =========================
-   FAVORITES
-========================= */
-
-function toggleFavorite(id){
-
-  if(favorites.includes(id)){
-
-    favorites=favorites.filter(x=>x!==id);
-    toast("تمت إزالة المانغا من المفضلة");
-
-  }else{
-
-    favorites.push(id);
-    toast("❤️ تمت إضافة المانغا للمفضلة");
-
-  }
-
-  save();
-  renderManga();
-  renderFavorites();
-  updateUI();
-
-}
-
-
-/* =========================
-   AUTH
-========================= */
-
-function openAuth(){
-
-  if(currentUser){
-
-    openProfile();
-    return;
-
-  }
-
-  authRegister=false;
-
-  document.getElementById("authTitle").textContent=
-    "🔐 تسجيل الدخول";
-
-  document.getElementById("authSubmitBtn").textContent=
-    "دخول";
-
-  document.getElementById("authSwitch").textContent=
-    "ليس لديك حساب؟ إنشاء حساب";
-
-  openModal("authModal");
-
-}
-
-
-function toggleAuthMode(){
-
-  authRegister=!authRegister;
-
-  document.getElementById("authTitle").textContent=
-    authRegister
-    ? "✨ إنشاء حساب"
-    : "🔐 تسجيل الدخول";
-
-  document.getElementById("authSubmitBtn").textContent=
-    authRegister
-    ? "إنشاء الحساب"
-    : "دخول";
-
-  document.getElementById("authSwitch").textContent=
-    authRegister
-    ? "لديك حساب؟ تسجيل الدخول"
-    : "ليس لديك حساب؟ إنشاء حساب";
-
-}
-
-
-function authSubmit(e){
-
-  e.preventDefault();
-
-  const username=
-    document.getElementById("authUsername").value.trim();
-
-  const password=
-    document.getElementById("authPassword").value;
-
-  if(authRegister){
-
-    if(users.some(u=>u.username===username)){
-
-      toast("اسم المستخدم موجود بالفعل");
-      return;
-
-    }
-
-    const user={
-      username,
-      password,
-      coins:50
-    };
-
-    users.push(user);
-    currentUser={username,coins:50};
-
-    save();
-
-    closeModal("authModal");
-
-    toast("🎉 تم إنشاء الحساب");
-
-  }else{
-
-    const user=users.find(
-      u=>u.username===username &&
-          u.password===password
-    );
-
-    if(!user){
-
-      toast("اسم المستخدم أو كلمة المرور غير صحيحة");
-      return;
-
-    }
-
-    currentUser={
-      username:user.username,
-      coins:user.coins||50
-    };
-
-    save();
-
-    closeModal("authModal");
-
-    toast("👋 أهلاً بك "+username);
-
-  }
-
-  updateUI();
-
-}
-
-
-function logout(){
-
-  currentUser=null;
-
-  localStorage.removeItem("mv_current");
-
-  document.getElementById("profileSection")
-    .classList.add("hidden");
-
-  updateUI();
-
-  toast("تم تسجيل الخروج");
-
-}
-
-
-function openProfile(){
-
-  if(!currentUser){
-
-    openAuth();
-    return;
-
-  }
-
-  document.getElementById("profileSection")
-    .classList.remove("hidden");
-
-  document.getElementById("profileSection")
-    .scrollIntoView({behavior:"smooth"});
-
-}
-
-
-/* =========================
-   PUBLISHING
-========================= */
-
-let coverData="";
-let pagesData=[];
-
-
-function openPublish(){
-
-  if(!currentUser){
-
-    toast("يجب تسجيل الدخول أولاً");
-
-    setTimeout(openAuth,400);
-
-    return;
-
-  }
-
-  openModal("publishModal");
-
-}
-
-
-function previewCover(e){
-
-  const file=e.target.files[0];
-
-  if(!file)return;
-
-  const reader=new FileReader();
-
-  reader.onload=()=>{
-
-    coverData=reader.result;
-
-    document.getElementById("coverPreview").innerHTML=
-      `<img src="${coverData}">`;
-
-  };
-
-  reader.readAsDataURL(file);
-
-}
-
-
-function previewPages(e){
-
-  const files=[...e.target.files];
-
-  pagesData=[];
-
-  const preview=
-    document.getElementById("pagesPreview");
-
-  preview.innerHTML="";
-
-  files.forEach(file=>{
-
-    const reader=new FileReader();
-
-    reader.onload=()=>{
-
-      pagesData.push({
-        name:file.name,
-        data:reader.result
-      });
-
-      preview.innerHTML +=
-        `<img src="${reader.result}">`;
-
-    };
-
-    reader.readAsDataURL(file);
-
-  });
-
-}
-
-
-function publishManga(e){
-
-  e.preventDefault();
-
-  if(!currentUser){
-
-    toast("يجب تسجيل الدخول");
-    return;
-
-  }
-
-  if(!coverData){
-
-    toast("اختر غلاف المانغا");
-    return;
-
-  }
-
-  if(!pagesData.length){
-
-    toast("اختر صفحات الفصل");
-    return;
-
-  }
-
-  pagesData.sort((a,b)=>
-    a.name.localeCompare(b.name,undefined,{
-      numeric:true
-    })
-  );
-
-  const mangaObject={
-
-    id:"user_"+Date.now(),
-
-    title:
-      document.getElementById("mangaTitle").value.trim(),
-
-    author:
-      document.getElementById("mangaAuthor").value.trim(),
-
-    category:
-      document.getElementById("mangaCategory").value,
-
-    description:
-      document.getElementById("mangaDescription").value.trim(),
-
-    cover:coverData,
-
-    owner:currentUser.username,
-
-    chapters:[{
-
-      title:"الفصل 1",
-
-      pages:pagesData.map(x=>x.data)
-
-    }],
-
-    createdAt:Date.now()
-
-  };
-
-  manga.push(mangaObject);
-
-  try{
-
-    save();
-
-  }catch(err){
-
-    toast(
-      "الصور كبيرة جداً على تخزين المتصفح. استخدم صوراً أصغر."
-    );
-
-    manga.pop();
-
-    return;
-
-  }
-
-  closeModal("publishModal");
-
-  resetPublish();
-
-  renderManga();
-  renderMyManga();
-  updateUI();
-
-  toast("🚀 تم نشر المانغا بنجاح");
-
-}
-
-
-function resetPublish(){
-
-  coverData="";
-  pagesData=[];
-
-  document.getElementById("coverPreview").innerHTML="";
-  document.getElementById("pagesPreview").innerHTML="";
-  document.getElementById("coverInput").value="";
-  document.getElementById("pagesInput").value="";
-
-}
-
-
-/* =========================
-   DETAILS
-========================= */
-
-function openDetails(id){
-
-  const m=manga.find(x=>x.id===id);
-
-  if(!m)return;
-
-  const content=document.getElementById("detailsContent");
-
-  content.innerHTML=`
-
-    <div style="display:grid;grid-template-columns:180px 1fr;gap:20px">
-
-      <img
-        src="${m.cover}"
-        style="width:100%;border-radius:12px">
-
-      <div>
-
-        <h1>${escapeHTML(m.title)}</h1>
-
-        <p style="color:var(--muted);margin:8px 0">
-          ✍️ ${escapeHTML(m.author)}
-        </p>
-
-        <p style="color:var(--muted)">
-          ${escapeHTML(m.description)}
-        </p>
-
-        <br>
-
-        <span class="badge">
-          ${escapeHTML(m.category)}
-        </span>
-
-      </div>
-
-    </div>
-
-    <br>
-
-    <h2>📖 الفصول</h2>
-
-    <div class="chapter-list">
-
-      ${m.chapters.map((ch,i)=>`
-
-        <div class="chapter">
-
-          <span>${escapeHTML(ch.title)}</span>
-
-          <button
-            class="btn primary"
-            onclick="openReader('${m.id}',${i})">
-            قراءة
-          </button>
-
-        </div>
-
-      `).join("")}
-
-    </div>
-
-  `;
-
-  openModal("detailsModal");
-
-}
-
-
-/* =========================
-   READER
-========================= */
-
-function openReader(id,chapterIndex){
-
-  const m=manga.find(x=>x.id===id);
-
-  if(!m)return;
-
-  reader.manga=m;
-  reader.chapter=m.chapters[chapterIndex];
-  reader.zoom=1;
-  reader.brightness=1;
-
-  closeModal("detailsModal");
-  openModal("readerModal");
-
-  renderReader();
-
-}
-
-
-function renderReader(){
-
-  const pages=document.getElementById("readerPages");
-
-  pages.className=
-    "reader-pages"+
-    (reader.pageMode?" page-mode":"");
-
-  pages.innerHTML=
-    reader.chapter.pages.map(
-      (src,i)=>`
-
-      <img
-        src="${src}"
-        loading="lazy"
-        data-page="${i}"
-        style="
-          transform:scale(${reader.zoom});
-          filter:brightness(${reader.brightness});
-        "
-        onload="updateReaderProgress()"
-      >
-
-    `
-    ).join("");
-
-  document.getElementById("readerInfo").textContent=
-    reader.manga.title+
-    " — "+
-    reader.chapter.title;
-
-  updateReaderProgress();
-
-}
-
-
-function readerZoom(value){
-
-  reader.zoom=Math.max(
-    .5,
-    Math.min(2,reader.zoom+value)
-  );
-
-  document.querySelectorAll("#readerPages img")
-    .forEach(img=>{
-      img.style.transform=
-        `scale(${reader.zoom})`;
-    });
-
-}
-
-
-function readerBrightness(value){
-
-  reader.brightness=Math.max(
-    .5,
-    Math.min(1.5,reader.brightness+value)
-  );
-
-  document.querySelectorAll("#readerPages img")
-    .forEach(img=>{
-      img.style.filter=
-        `brightness(${reader.brightness})`;
-    });
-
-}
-
-
-function toggleReaderMode(){
-
-  reader.pageMode=!reader.pageMode;
-
-  renderReader();
-
-}
-
-
-function updateReaderProgress(){
-
-  const images=
-    [...document.querySelectorAll("#readerPages img")];
-
-  if(!images.length)return;
-
-  const middle=window.innerHeight/2;
-
-  let current=0;
-
-  images.forEach((img,i)=>{
-
-    const rect=img.getBoundingClientRect();
-
-    if(rect.top<middle && rect.bottom>middle)
-      current=i;
-
-  });
-
-  const progress=
-    ((current+1)/images.length)*100;
-
-  document.getElementById("readerProgress")
-    .style.width=progress+"%";
-
-  localStorage.setItem(
-    "mv_progress_"+reader.manga.id,
-    JSON.stringify({
-      chapter:reader.manga.chapters.indexOf(reader.chapter),
-      page:current
-    })
-  );
-
-}
-
-
-document.addEventListener("scroll",()=>{
-
-  if(!document
-    .getElementById("readerModal")
-    .classList.contains("hidden")){
-
-    updateReaderProgress();
-
-  }
-
-},{passive:true});
-
-
-/* =========================
-   DELETE
-========================= */
-
-function deleteManga(id){
-
-  if(!confirm("هل تريد حذف هذه المانغا؟"))
-    return;
-
-  const m=manga.find(x=>x.id===id);
-
-  if(!m || m.owner!==currentUser?.username)
-    return;
-
-  manga=manga.filter(x=>x.id!==id);
-
-  save();
-
-  renderManga();
-  renderMyManga();
-
-  toast("تم حذف المانغا");
-
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-function sendChat(){
-
-  const input=document.getElementById("chatInput");
-
-  const text=input.value.trim();
-
-  if(!text)return;
-
-  const messages=document.getElementById("messages");
-
-  const div=document.createElement("div");
-
-  div.className="msg me";
-
-  div.textContent=
-    (currentUser?.username||"أنت")+": "+text;
-
-  messages.appendChild(div);
-
-  input.value="";
-
-  messages.scrollTop=messages.scrollHeight;
-
-}
-
-
-/* =========================
-   AI ASSISTANT
-========================= */
-
-function toggleAI(){
-
-  document.getElementById("aiBox")
-    .classList.toggle("hidden");
-
-}
-
-
-function sendAI(){
-
-  const input=document.getElementById("aiInput");
-
-  const text=input.value.trim();
-
-  if(!text)return;
-
-  addAIMessage(text,true);
-
-  input.value="";
-
-  setTimeout(()=>{
-
-    const answer=getAIAnswer(text);
-
-    addAIMessage(answer,false);
-
-  },350);
-
-}
-
-
-function addAIMessage(text,user){
-
-  const box=document.getElementById("aiMessages");
-
-  const div=document.createElement("div");
-
-  div.className="ai-msg"+(user?" user":"");
-
-  div.textContent=text;
-
-  box.appendChild(div);
-
-  box.scrollTop=box.scrollHeight;
-
-}
-
-
-function getAIAnswer(text){
-
-  const t=text.toLowerCase();
-
-  if(t.includes("أكشن")||t.includes("قتال"))
-    return "⚔️ إذا كنت تحب الأكشن، جرّب «محارب الظلال» و«آخر صياد».";
-
-  if(t.includes("رعب"))
-    return "👻 ابحث في تصنيف الرعب من الفلاتر للحصول على الأعمال المتاحة.";
-
-  if(t.includes("فانتازيا"))
-    return "✨ أنصحك بتجربة «فيلدورا — عرش الرماد» أو «بوابة النجوم».";
-
-  if(t.includes("فيلدورا"))
-    return "🔥 فيلدورا — عرش الرماد تدور حول شاب يستيقظ داخل عالم غامض ويحمل إرثاً مجهولاً.";
-
-  if(t.includes("مساعدة")||t.includes("كيف"))
-    return "يمكنني مساعدتك في العثور على مانغا حسب النوع أو شرح طريقة استخدام المنصة.";
-
-  return "🤖 فهمت! جرّب أن تقول: أريد أكشن، أريد فانتازيا، أو أريد مانغا رعب.";
-
-}
-
-
-/* =========================
-   MODALS
-========================= */
-
-function openModal(id){
-
-  document.getElementById(id)
-    .classList.remove("hidden");
-
-}
-
-function closeModal(id){
-
-  document.getElementById(id)
-    .classList.add("hidden");
-
-}
-
-
-function scrollToSection(id){
-
-  document.getElementById(id)
-    .scrollIntoView({behavior:"smooth"});
-
-}
-
-
-/* =========================
-   TOAST
-========================= */
-
-let toastTimer;
-
-function toast(text){
-
-  const el=document.getElementById("toast");
-
-  el.textContent=text;
-
-  el.classList.remove("hidden");
-
-  clearTimeout(toastTimer);
-
-  toastTimer=setTimeout(()=>{
-    el.classList.add("hidden");
-  },2500);
-
-}
-
-
-/* =========================
-   SECURITY / HTML
-========================= */
-
-function escapeHTML(text){
-
-  return String(text)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-
-}
-
-
-/* =========================
-   CLOSE MODALS
-========================= */
-
-document.querySelectorAll(".modal")
-.forEach(modal=>{
-
-  modal.addEventListener("click",e=>{
-
-    if(e.target===modal)
-      modal.classList.add("hidden");
-
-  });
-
-});
-
-
-/* =========================
-   START
-========================= */
-
-load();
-
-</script>
-
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#080b12">
 <title>MangaVerse AI</title>
 
 <style>
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
  margin:0;
  font-family:Arial,Tahoma,sans-serif;
  background:#080b12;
  color:#fff;
- padding-bottom:75px;
+ padding-bottom:85px;
 }
 button,input,textarea,select{font:inherit}
-button{cursor:pointer;border:0}
+button{border:0;cursor:pointer}
+
 header{
  position:sticky;
  top:0;
  z-index:50;
- background:rgba(8,11,18,.95);
- backdrop-filter:blur(15px);
+ background:rgba(8,11,18,.96);
+ backdrop-filter:blur(16px);
  border-bottom:1px solid #202638;
+ padding-top:env(safe-area-inset-top);
 }
+
 .nav{
  max-width:1200px;
  margin:auto;
  display:flex;
  align-items:center;
  gap:10px;
- padding:14px;
+ padding:12px 14px;
 }
+
 .logo{
- font-size:23px;
+ font-size:22px;
  font-weight:900;
  color:#8b5cf6;
  white-space:nowrap;
 }
-.logo span{color:white}
+.logo span{color:#fff}
+
 .search{
  flex:1;
+ min-width:0;
  background:#111625;
  border:1px solid #283047;
- color:white;
+ color:#fff;
  border-radius:14px;
  padding:11px 14px;
  outline:none;
 }
+
 .btn{
  background:#171d2d;
- color:white;
+ color:#fff;
  padding:10px 14px;
  border-radius:12px;
+ transition:.2s;
 }
+.btn:active{transform:scale(.96)}
+
 .primary{
  background:linear-gradient(135deg,#7c3aed,#4f46e5);
 }
+
 .balance{
  background:#21183a;
  color:#d9c7ff;
  padding:8px 11px;
  border-radius:12px;
+ white-space:nowrap;
 }
+
 .container{
  max-width:1200px;
  margin:auto;
- padding:20px 14px;
+ padding:18px 14px;
 }
+
 .hero{
- padding:42px 24px;
- border-radius:25px;
+ padding:40px 22px;
  min-height:290px;
+ border-radius:25px;
  display:flex;
  align-items:center;
  background:
  linear-gradient(90deg,rgba(9,11,20,.98),rgba(9,11,20,.55)),
  radial-gradient(circle at 80%,#6d28d9,#101323 55%);
 }
+
 .hero h1{
  font-size:40px;
  margin:0 0 10px;
 }
+
 .hero p{
  color:#b9c0d4;
  max-width:650px;
  line-height:1.8;
 }
+
 .actions{
  display:flex;
  gap:9px;
  flex-wrap:wrap;
 }
+
 h2{margin-top:32px}
+
 .grid{
  display:grid;
  grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
  gap:15px;
 }
+
 .card{
  background:#101522;
  border:1px solid #20283b;
  border-radius:18px;
  overflow:hidden;
-}
-.card:hover{
- border-color:#7046d9;
- transform:translateY(-3px);
  transition:.2s;
 }
+
+.card:hover{
+ transform:translateY(-3px);
+ border-color:#7046d9;
+}
+
 .cover{
  width:100%;
  height:220px;
  object-fit:cover;
  background:#1b2233;
 }
+
 .card-body{padding:12px}
+
 .card h3{
  margin:0 0 7px;
  font-size:16px;
 }
+
 .muted{
  color:#8e98ae;
  font-size:13px;
  line-height:1.7;
 }
+
 .tags{
  display:flex;
  gap:5px;
  flex-wrap:wrap;
  margin:8px 0;
 }
+
 .tag{
  background:#20283b;
  color:#bda8ff;
@@ -2550,18 +167,20 @@ h2{margin-top:32px}
  padding:4px 8px;
  font-size:11px;
 }
+
 .panel{
  background:#101522;
  border:1px solid #20283b;
  padding:18px;
  border-radius:18px;
 }
+
 .public{
- border-color:#9b7cff;
- background:
- linear-gradient(135deg,#161329,#101522);
+ border-color:#6548b8;
+ background:linear-gradient(135deg,#161329,#101522);
 }
-.public-badge{
+
+.badge{
  display:inline-block;
  background:#263d2c;
  color:#a7f3b4;
@@ -2570,19 +189,22 @@ h2{margin-top:32px}
  font-size:11px;
  margin-bottom:8px;
 }
+
 .modal{
  position:fixed;
  inset:0;
- background:rgba(0,0,0,.78);
+ background:rgba(0,0,0,.8);
  display:none;
  align-items:center;
  justify-content:center;
  z-index:100;
  padding:15px;
 }
+
 .modal.active{display:flex}
+
 .modal-box{
- width:min(700px,100%);
+ width:min(720px,100%);
  max-height:90vh;
  overflow:auto;
  background:#101522;
@@ -2590,31 +212,37 @@ h2{margin-top:32px}
  border-radius:20px;
  padding:20px;
 }
+
 .close{
  float:left;
  background:#222a3c;
- color:white;
+ color:#fff;
  padding:8px 12px;
  border-radius:10px;
 }
+
 .form{
  display:grid;
  gap:12px;
 }
+
 .form input,
 .form textarea,
 .form select{
+ width:100%;
  background:#0b0f19;
- color:white;
+ color:#fff;
  border:1px solid #2b344b;
  border-radius:12px;
  padding:12px;
  outline:none;
 }
+
 .form textarea{
  min-height:120px;
  resize:vertical;
 }
+
 .chat{
  height:300px;
  overflow:auto;
@@ -2622,38 +250,47 @@ h2{margin-top:32px}
  padding:10px;
  border-radius:14px;
 }
+
 .message{
  padding:12px;
  border-radius:12px;
  margin:8px 0;
  max-width:90%;
 }
+
 .ai-msg{background:#211a38}
+
 .user-msg{
  background:#1b2b46;
  margin-right:auto;
 }
+
 .reader{
  background:#000;
  min-height:70vh;
  text-align:center;
+ padding:20px 5px;
 }
+
 .reader img{
  max-width:100%;
  display:block;
  margin:auto;
 }
+
 .stat{
  display:grid;
  grid-template-columns:repeat(3,1fr);
  gap:10px;
 }
+
 .stat div{
  background:#171d2c;
  padding:15px;
  border-radius:14px;
  text-align:center;
 }
+
 .bottom{
  position:fixed;
  bottom:0;
@@ -2663,21 +300,52 @@ h2{margin-top:32px}
  border-top:1px solid #202638;
  display:flex;
  justify-content:space-around;
- padding:9px;
+ padding:8px 8px calc(8px + env(safe-area-inset-bottom));
  z-index:40;
 }
+
 .bottom button{
  background:none;
  color:#aeb6ca;
  font-size:12px;
+ padding:5px;
 }
+
+.empty{
+ padding:25px;
+ text-align:center;
+ color:#8e98ae;
+}
+
+.source{
+ color:#a78bfa;
+ text-decoration:none;
+ display:inline-block;
+ margin-top:8px;
+}
+
 @media(max-width:700px){
- .nav .search{display:none}
- .hero h1{font-size:29px}
+
+ .nav .search{
+  display:none;
+ }
+
+ .hero h1{
+  font-size:29px;
+ }
+
  .grid{
   grid-template-columns:repeat(2,minmax(0,1fr));
  }
- .stat{grid-template-columns:1fr}
+
+ .cover{
+  height:210px;
+ }
+
+ .stat{
+  grid-template-columns:1fr;
+ }
+
 }
 </style>
 </head>
@@ -2701,46 +369,53 @@ Manga<span>Verse</span> 🤖
 🪙 <b id="coins">50</b>
 </div>
 
-<button class="btn" onclick="openModal('accountModal')">
+<button
+ class="btn"
+ onclick="openModal('accountModal')">
 👤
 </button>
 
 </div>
 </header>
 
+
 <main class="container">
 
 <section class="hero">
 <div>
 
-<h1>
-عالم المانغا بين يديك 📚
-</h1>
+<h1>عالم المانغا بين يديك 📚</h1>
 
 <p>
-اقرأ واكتشف الأعمال، استكشف قسم
-Public Domain، وانشر أعمالك الأصلية
-مع MangaVerse AI.
+اقرأ واكتشف المانغا، استكشف الأعمال
+الموجودة في الملكية العامة، انشر أعمالك
+الأصلية واستعمل MangaVerse AI.
 </p>
 
 <div class="actions">
 
 <button
  class="btn primary"
- onclick="scrollToId('library')">
+ onclick="goTo('library')">
 📚 المكتبة
 </button>
 
 <button
  class="btn"
- onclick="scrollToId('publicDomain')">
+ onclick="goTo('publicDomain')">
 📜 Public Domain
 </button>
 
 <button
  class="btn"
  onclick="openModal('aiModal')">
-🤖 MangaVerse AI
+🤖 AI
+</button>
+
+<button
+ class="btn"
+ onclick="openModal('publishModal')">
+✍️ نشر
 </button>
 
 </div>
@@ -2749,38 +424,27 @@ Public Domain، وانشر أعمالك الأصلية
 </section>
 
 
-<!-- المكتبة -->
-
 <section id="library">
 
-<h2>
-🔥 المانغا المميزة
-</h2>
+<h2>🔥 المانغا المميزة</h2>
 
 <div id="mangaGrid" class="grid"></div>
 
 </section>
 
 
-<!-- PUBLIC DOMAIN -->
-
 <section id="publicDomain">
 
-<h2>
-📜 Public Domain
-</h2>
+<h2>📜 Public Domain</h2>
 
 <div class="panel public">
 
-<h3>
-أعمال متاحة ضمن الملكية العامة
-</h3>
+<h3>أعمال من الملكية العامة</h3>
 
 <p class="muted">
-هذا القسم مخصص للأعمال التي تم التحقق من
-كونها متاحة ضمن الملكية العامة أو بترخيص يسمح
-بإعادة استخدامها. تحقق من حالة الحقوق في بلدك
-قبل إعادة النشر.
+هذه الأعمال القديمة تظهر في مصادرها كأعمال
+Public Domain. تحقق دائمًا من حالة الحقوق
+في البلد الذي ستستخدم فيه المحتوى.
 </p>
 
 <div id="publicGrid" class="grid"></div>
@@ -2790,22 +454,16 @@ Public Domain، وانشر أعمالك الأصلية
 </section>
 
 
-<!-- AI -->
-
 <section>
 
-<h2>
-🤖 MangaVerse AI
-</h2>
+<h2>🤖 MangaVerse AI</h2>
 
 <div class="panel">
 
-<h3>
-مساعدك الذكي للمانغا
-</h3>
+<h3>مساعدك الذكي للمانغا</h3>
 
 <p class="muted">
-اكتب النوع الذي تبحث عنه.
+ابحث حسب النوع أو الجو الذي تريده.
 </p>
 
 <button
@@ -2819,35 +477,28 @@ Public Domain، وانشر أعمالك الأصلية
 </section>
 
 
-<!-- STATS -->
-
 <section>
 
-<h2>
-⭐ إنجازاتك
-</h2>
+<h2>⭐ إنجازاتك</h2>
 
 <div class="stat">
 
 <div>
-📖
-<br>
+📖<br>
 <b id="readCount">0</b>
 <br>
 <small>فصول مقروءة</small>
 </div>
 
 <div>
-❤️
-<br>
+❤️<br>
 <b id="favCount">0</b>
 <br>
 <small>المفضلة</small>
 </div>
 
 <div>
-🏆
-<br>
+🏆<br>
 <b id="level">1</b>
 <br>
 <small>المستوى</small>
@@ -2858,13 +509,9 @@ Public Domain، وانشر أعمالك الأصلية
 </section>
 
 
-<!-- CENTER -->
-
 <section>
 
-<h2>
-🛠️ مركز المنصة
-</h2>
+<h2>🛠️ مركز المنصة</h2>
 
 <div class="actions">
 
@@ -2886,6 +533,12 @@ Public Domain، وانشر أعمالك الأصلية
 🎁 المكافأة اليومية
 </button>
 
+<button
+ class="btn"
+ onclick="clearFavorites()">
+🗑️ مسح المفضلة
+</button>
+
 </div>
 
 </section>
@@ -2893,11 +546,9 @@ Public Domain، وانشر أعمالك الأصلية
 </main>
 
 
-<!-- NAV -->
-
 <div class="bottom">
 
-<button onclick="scrollToId('library')">
+<button onclick="goTo('library')">
 🏠<br>الرئيسية
 </button>
 
@@ -2905,7 +556,7 @@ Public Domain، وانشر أعمالك الأصلية
 ⭐<br>المفضلة
 </button>
 
-<button onclick="scrollToId('publicDomain')">
+<button onclick="goTo('publicDomain')">
 📜<br>Public
 </button>
 
@@ -2932,9 +583,7 @@ Public Domain، وانشر أعمالك الأصلية
 ✕
 </button>
 
-<h2>
-👤 حساب MangaVerse
-</h2>
+<h2>👤 حساب MangaVerse</h2>
 
 <div class="panel">
 
@@ -2948,7 +597,7 @@ Public Domain، وانشر أعمالك الأصلية
 </p>
 
 <p>
-📖 الفصول:
+📖 الفصول المقروءة:
 <b id="accountReads">0</b>
 </p>
 
@@ -2969,7 +618,7 @@ Public Domain، وانشر أعمالك الأصلية
 <button
  class="btn primary"
  onclick="login()">
-تسجيل الدخول / إنشاء حساب
+حفظ الحساب
 </button>
 
 </div>
@@ -2991,14 +640,13 @@ Public Domain، وانشر أعمالك الأصلية
 ✕
 </button>
 
-<h2>
-🤖 MangaVerse AI
-</h2>
+<h2>🤖 MangaVerse AI</h2>
 
 <div id="chat" class="chat">
 
 <div class="message ai-msg">
-🤖 أهلًا! أخبرني بنوع المانغا التي تبحث عنها.
+🤖 أهلًا! اكتب مثلًا: أكشن، فانتازيا،
+غموض أو مانغا قديمة.
 </div>
 
 </div>
@@ -3008,7 +656,7 @@ Public Domain، وانشر أعمالك الأصلية
 <input
  id="aiInput"
  class="search"
- placeholder="مثلاً: أكشن وفانتازيا..."
+ placeholder="اكتب طلبك..."
 >
 
 <button
@@ -3036,9 +684,7 @@ Public Domain، وانشر أعمالك الأصلية
 ✕
 </button>
 
-<h2>
-✍️ نشر مانغا
-</h2>
+<h2>✍️ نشر مانغا</h2>
 
 <div class="form">
 
@@ -3053,19 +699,16 @@ Public Domain، وانشر أعمالك الأصلية
 </textarea>
 
 <select id="newGenre">
-
 <option>أكشن</option>
 <option>فانتازيا</option>
 <option>مغامرة</option>
 <option>غموض</option>
 <option>كوميديا</option>
-
 </select>
 
 <input
  id="newCover"
- placeholder="رابط صورة الغلاف"
->
+ placeholder="رابط صورة الغلاف">
 
 <button
  class="btn primary"
@@ -3084,10 +727,7 @@ Public Domain، وانشر أعمالك الأصلية
 
 <div class="modal" id="readerModal">
 
-<div
- class="modal-box"
- style="padding:0;background:#000"
->
+<div class="modal-box" style="padding:0;background:#000">
 
 <button
  class="close"
@@ -3110,11 +750,11 @@ Public Domain، وانشر أعمالك الأصلية
 
 <script>
 
-/* =====================
-   MANGA
-===================== */
+/* =========================
+   DATA
+========================= */
 
-const manga=[
+const defaultManga=[
 
 {
  id:1,
@@ -3132,7 +772,7 @@ const manga=[
  id:2,
  title:"عرش الفانتازيا",
  genre:"فانتازيا",
- desc:"عالم مليء بالسحر والممالك.",
+ desc:"عالم مليء بالسحر والممالك والأسرار.",
  cover:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500",
  pages:[
  "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900"
@@ -3148,137 +788,191 @@ const manga=[
  pages:[
  "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900"
  ]
+},
+
+{
+ id:4,
+ title:"مدينة النجوم",
+ genre:"غموض",
+ desc:"مدينة غريبة تخفي أسرارًا لا تنتهي.",
+ cover:"https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=500",
+ pages:[
+ "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?w=900"
+ ]
 }
 
 ];
 
 
-/* =====================
-   PUBLIC DOMAIN
-===================== */
+/*
+ Public Domain
+ المصادر تشير إلى حالة الملكية العامة.
+*/
 
 const publicDomain=[
 
 {
  id:"pd1",
- title:"Hokusai Manga",
+ title:"Hokusai Manga — Vol. I",
  author:"Katsushika Hokusai",
  year:"1814",
- genre:"فن / مانغا مبكرة",
+ cover:"https://commons.wikimedia.org/wiki/Special:FilePath/Hokusai_Manga_01.jpg",
+ source:"Wikimedia Commons",
+ url:"https://commons.wikimedia.org/wiki/File:Hokusai_Manga_01.jpg"
+},
 
- cover:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Hokusai_Manga_10th_volume.jpg/640px-Hokusai_Manga_10th_volume.jpg",
+{
+ id:"pd2",
+ title:"Hokusai Manga — Vol. IV",
+ author:"Katsushika Hokusai",
+ year:"1819",
+ cover:"https://commons.wikimedia.org/wiki/Special:FilePath/HOKUSAI_manga-IV.jpg",
+ source:"Wikimedia Commons",
+ url:"https://commons.wikimedia.org/wiki/File:HOKUSAI_manga-IV.jpg"
+},
 
- description:
- "مجموعة رسومات شهيرة من أعمال كاتسوشيكا هوكوساي.",
+{
+ id:"pd3",
+ title:"Hokusai Manga — Vol. VI",
+ author:"Katsushika Hokusai",
+ year:"القرن التاسع عشر",
+ cover:"https://commons.wikimedia.org/wiki/Special:FilePath/Hokusai_manga_06.jpg",
+ source:"Wikimedia Commons",
+ url:"https://commons.wikimedia.org/wiki/File:Hokusai_manga_06.jpg"
+},
 
- source:
- "Wikimedia Commons",
+{
+ id:"pd4",
+ title:"Hokusai Manga — Vol. VII",
+ author:"Katsushika Hokusai",
+ year:"قبل 1850",
+ cover:"https://commons.wikimedia.org/wiki/Special:FilePath/Hokusai_manga_-_hokusaimanga07kats.pdf",
+ source:"Wikimedia Commons",
+ url:"https://commons.wikimedia.org/wiki/File:Hokusai_manga_-_hokusaimanga07kats.pdf"
+},
 
- sourceURL:
- "https://commons.wikimedia.org/wiki/Category:Hokusai_Manga"
+{
+ id:"pd5",
+ title:"Hokusai Manga — Vol. XII",
+ author:"Katsushika Hokusai",
+ year:"1834",
+ cover:"https://commons.wikimedia.org/wiki/Special:FilePath/HOKUSAI_manga-XII.jpg",
+ source:"Wikimedia Commons",
+ url:"https://commons.wikimedia.org/wiki/File:HOKUSAI_manga-XII.jpg"
 }
 
 ];
 
 
-/* =====================
+/* =========================
    STATE
-===================== */
+========================= */
+
+let manga=
+ JSON.parse(localStorage.getItem("mangaVerseManga")||"null")
+ ||defaultManga;
 
 let favorites=
- JSON.parse(localStorage.getItem("favorites")||"[]");
+ JSON.parse(localStorage.getItem("mangaVerseFavorites")||"[]");
 
 let coins=
- Number(localStorage.getItem("coins")||50);
+ Number(localStorage.getItem("mangaVerseCoins")||50);
 
 let reads=
- Number(localStorage.getItem("reads")||0);
+ Number(localStorage.getItem("mangaVerseReads")||0);
 
 let user=
- localStorage.getItem("user")||
- "زائر MangaVerse";
+ localStorage.getItem("mangaVerseUser")
+ ||"زائر MangaVerse";
 
 
-/* =====================
-   RENDER MANGA
-===================== */
+/* =========================
+   RENDER
+========================= */
 
 function render(list=manga){
 
- const grid=
- document.getElementById("mangaGrid");
+ const grid=document.getElementById("mangaGrid");
 
  grid.innerHTML="";
 
+ if(!list.length){
+
+  grid.innerHTML=
+  `<div class="empty">لا توجد نتائج.</div>`;
+
+  return;
+ }
+
  list.forEach(m=>{
 
- const fav=
- favorites.includes(m.id);
+  const fav=favorites.includes(m.id);
 
- grid.innerHTML+=`
+  grid.innerHTML+=`
 
- <article class="card">
+  <article class="card">
 
- <img
- class="cover"
- src="${m.cover}"
- onerror="this.src='https://via.placeholder.com/500x700?text=Manga'"
- >
+   <img
+    class="cover"
+    src="${escapeHTML(m.cover)}"
+    onerror="this.src='https://via.placeholder.com/500x700?text=Manga'"
+   >
 
- <div class="card-body">
+   <div class="card-body">
 
- <h3>
- ${escapeHTML(m.title)}
- </h3>
+    <h3>
+     ${escapeHTML(m.title)}
+    </h3>
 
- <div class="muted">
- ${escapeHTML(m.genre)}
- </div>
+    <div class="muted">
+     ${escapeHTML(m.genre)}
+    </div>
 
- <div class="tags">
+    <div class="tags">
 
- <span class="tag">
- ${escapeHTML(m.genre)}
- </span>
+     <span class="tag">
+      ${escapeHTML(m.genre)}
+     </span>
 
- <span class="tag">
- 📖 فصول
- </span>
+     <span class="tag">
+      📖 قراءة
+     </span>
 
- </div>
+    </div>
 
- <p class="muted">
- ${escapeHTML(m.desc)}
- </p>
+    <p class="muted">
+     ${escapeHTML(m.desc)}
+    </p>
 
- <div class="actions">
+    <div class="actions">
 
- <button
- class="btn primary"
- onclick="readManga(${m.id})">
- 📖 قراءة
- </button>
+     <button
+      class="btn primary"
+      onclick="readManga(${m.id})">
+      📖 قراءة
+     </button>
 
- <button
- class="btn"
- onclick="toggleFavorite(${m.id})">
- ${fav?"❤️":"🤍"}
- </button>
+     <button
+      class="btn"
+      onclick="toggleFavorite(${m.id})">
+      ${fav?"❤️":"🤍"}
+     </button>
 
- </div>
+    </div>
 
- </div>
+   </div>
 
- </article>
- `;
+  </article>
+
+  `;
  });
 
 }
 
 
-/* =====================
-   RENDER PUBLIC
-===================== */
+/* =========================
+   PUBLIC DOMAIN
+========================= */
 
 function renderPublic(){
 
@@ -3287,131 +981,138 @@ function renderPublic(){
 
  grid.innerHTML="";
 
- publicDomain.forEach(m=>{
+ publicDomain.forEach(item=>{
 
- grid.innerHTML+=`
+  grid.innerHTML+=`
 
- <article class="card">
+  <article class="card">
 
- <img
- class="cover"
- src="${m.cover}"
- onerror="this.style.display='none'"
- >
+   <img
+    class="cover"
+    src="${item.cover}"
+    onerror="this.src='https://via.placeholder.com/500x700?text=Public+Domain'"
+   >
 
- <div class="card-body">
+   <div class="card-body">
 
- <span class="public-badge">
- ✓ Public Domain
- </span>
+    <span class="badge">
+     ✓ Public Domain
+    </span>
 
- <h3>
- ${escapeHTML(m.title)}
- </h3>
+    <h3>
+     ${escapeHTML(item.title)}
+    </h3>
 
- <p class="muted">
- المؤلف: ${escapeHTML(m.author)}
- </p>
+    <p class="muted">
+     👤 ${escapeHTML(item.author)}
+    </p>
 
- <p class="muted">
- السنة: ${escapeHTML(m.year)}
- </p>
+    <p class="muted">
+     📅 ${escapeHTML(item.year)}
+    </p>
 
- <p class="muted">
- ${escapeHTML(m.description)}
- </p>
+    <p class="muted">
+     مصدر موثق عبر Wikimedia Commons.
+    </p>
 
- <a
- href="${m.sourceURL}"
- target="_blank"
- rel="noopener"
- style="color:#a78bfa">
- 🔗 المصدر
- </a>
+    <a
+     class="source"
+     href="${item.url}"
+     target="_blank"
+     rel="noopener">
+     🔗 فتح المصدر
+    </a>
 
- </div>
+   </div>
 
- </article>
+  </article>
 
- `;
+  `;
 
  });
 
 }
 
 
-/* =====================
+/* =========================
    READER
-===================== */
+========================= */
 
 function readManga(id){
 
- const m=
- manga.find(x=>x.id===id);
+ const m=manga.find(x=>x.id===id);
 
  if(!m)return;
 
  reads++;
 
- localStorage.setItem(
- "reads",
- reads
- );
+ saveState();
 
  updateStats();
 
- document.getElementById(
- "readerTitle"
- ).textContent=
- "📖 "+m.title;
+ document.getElementById("readerTitle")
+ .textContent="📖 "+m.title;
 
- document.getElementById(
- "readerPages"
- ).innerHTML=
+ const pages=
+ document.getElementById("readerPages");
 
- m.pages.map((p,i)=>`
+ if(!m.pages || !m.pages.length){
 
- <div>
+  pages.innerHTML=`
 
- <p style="color:#aaa">
- الفصل 1 — الصفحة ${i+1}
- </p>
+  <div class="empty">
+   هذا العمل لا يحتوي على صفحات بعد.
+   <br><br>
+   يمكنك إضافة صفحات من نظام النشر.
+  </div>
 
- <img
- src="${p}"
- loading="lazy"
- >
+  `;
 
- </div>
+ }else{
 
- `).join("");
+  pages.innerHTML=
+  m.pages.map((page,index)=>`
+
+   <div>
+
+    <p style="color:#aaa">
+     الفصل 1 — الصفحة ${index+1}
+    </p>
+
+    <img
+     src="${escapeHTML(page)}"
+     loading="lazy"
+     onerror="this.style.display='none'"
+    >
+
+   </div>
+
+  `).join("");
+
+ }
 
  openModal("readerModal");
-
 }
 
 
-/* =====================
+/* =========================
    FAVORITES
-===================== */
+========================= */
 
 function toggleFavorite(id){
 
  if(favorites.includes(id)){
 
- favorites=
- favorites.filter(x=>x!==id);
+  favorites=
+  favorites.filter(x=>x!==id);
 
  }else{
 
- favorites.push(id);
+  favorites.push(id);
 
  }
 
- localStorage.setItem(
- "favorites",
- JSON.stringify(favorites)
- );
+ saveState();
 
  render();
 
@@ -3422,52 +1123,63 @@ function toggleFavorite(id){
 
 function showFavorites(){
 
- render(
- manga.filter(
- x=>favorites.includes(x.id)
- )
- );
+ const list=
+ manga.filter(x=>favorites.includes(x.id));
 
- scrollToId("library");
+ render(list);
+
+ goTo("library");
 
 }
 
 
-/* =====================
-   SEARCH
-===================== */
+function clearFavorites(){
 
-document
-.getElementById("search")
-.addEventListener("input",e=>{
+ favorites=[];
 
- const q=
- e.target.value
- .trim()
- .toLowerCase();
-
- if(!q){
+ saveState();
 
  render();
 
- return;
+ updateStats();
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document
+.getElementById("search")
+.addEventListener("input",function(){
+
+ const q=
+ this.value.trim().toLowerCase();
+
+ if(!q){
+
+  render();
+
+  return;
 
  }
 
- render(
+ const result=
  manga.filter(m=>
- m.title.toLowerCase().includes(q)||
- m.genre.toLowerCase().includes(q)||
- m.desc.toLowerCase().includes(q)
- )
+  m.title.toLowerCase().includes(q) ||
+  m.genre.toLowerCase().includes(q) ||
+  m.desc.toLowerCase().includes(q)
  );
+
+ render(result);
 
 });
 
 
-/* =====================
+/* =========================
    PUBLISH
-===================== */
+========================= */
 
 function publishManga(){
 
@@ -3489,55 +1201,51 @@ function publishManga(){
 
  if(!title){
 
- alert("اكتب اسم المانغا.");
+  alert("اكتب اسم المانغا أولاً.");
 
- return;
+  return;
 
  }
 
- manga.unshift({
+ const newManga={
 
- id:Date.now(),
+  id:Date.now(),
 
- title:title,
+  title:title,
 
- genre:genre,
+  genre:genre,
 
- desc:
- desc||"عمل جديد على MangaVerse",
+  desc:
+  desc || "عمل جديد على MangaVerse",
 
- cover:
- cover||
- "https://via.placeholder.com/500x700?text=Manga",
+  cover:
+  cover ||
+  "https://via.placeholder.com/500x700?text=Manga",
 
- pages:[]
+  pages:[]
 
- });
+ };
 
- document
- .getElementById("newTitle")
- .value="";
+ manga.unshift(newManga);
 
- document
- .getElementById("newDesc")
- .value="";
+ saveState();
 
- document
- .getElementById("newCover")
- .value="";
+ document.getElementById("newTitle").value="";
+ document.getElementById("newDesc").value="";
+ document.getElementById("newCover").value="";
 
  closeModal("publishModal");
 
  render();
 
- alert("🚀 تم نشر العمل");
+ alert("🚀 تم نشر المانغا بنجاح");
 
 }
 
 
-/* =====================
+/* =========================
    LOGIN
-===================== */
+========================= */
 
 function login(){
 
@@ -3547,31 +1255,29 @@ function login(){
 
  if(!name){
 
- alert("اكتب اسم المستخدم.");
+  alert("اكتب اسم المستخدم.");
 
- return;
+  return;
 
  }
 
  user=name;
 
  localStorage.setItem(
- "user",
- user
+  "mangaVerseUser",
+  user
  );
 
  updateStats();
 
- alert(
- "تم تسجيل الدخول بنجاح!"
- );
+ alert("✅ تم حفظ الحساب");
 
 }
 
 
-/* =====================
+/* =========================
    AI
-===================== */
+========================= */
 
 function askAI(){
 
@@ -3594,65 +1300,69 @@ function askAI(){
 
  `;
 
- const q=
- text.toLowerCase();
+ const q=text.toLowerCase();
 
  let result="";
 
  if(
- q.includes("أكشن")||
+ q.includes("أكشن") ||
  q.includes("قتال")
  ){
 
- result=
- "🔥 جرّب محارب الظلال للأكشن والقتال.";
+  result=
+  "🔥 جرّب <b>محارب الظلال</b>.";
 
  }
 
  else if(
- q.includes("فانتازيا")||
+ q.includes("فانتازيا") ||
  q.includes("سحر")
  ){
 
- result=
- "✨ عرش الفانتازيا مناسب لعشاق السحر والممالك.";
+  result=
+  "✨ <b>عرش الفانتازيا</b> يناسب هذا النوع.";
 
  }
 
  else if(
- q.includes("قديم")||
- q.includes("public")||
- q.includes("تراث")
+ q.includes("غموض")
  ){
 
- result=
- "📜 يمكنك استكشاف قسم Public Domain داخل MangaVerse.";
+  result=
+  "🌌 <b>مدينة النجوم</b> مناسبة للغموض.";
+
+ }
+
+ else if(
+ q.includes("قديم") ||
+ q.includes("تراث") ||
+ q.includes("public")
+ ){
+
+  result=
+  "📜 افتح قسم Public Domain لاستكشاف الأعمال القديمة المتاحة.";
 
  }
 
  else{
 
- result=
- "🤖 لدي هذه الأعمال حاليًا:<br><br>"+
- manga
- .slice(0,3)
- .map(x=>"📚 "+escapeHTML(x.title))
- .join("<br>");
+  result=
+  "🤖 جرّب البحث عن: أكشن، فانتازيا، غموض، أو Public Domain.";
 
  }
 
  setTimeout(()=>{
 
- chat.innerHTML+=`
+  chat.innerHTML+=`
 
- <div class="message ai-msg">
- ${result}
- </div>
+  <div class="message ai-msg">
+   ${result}
+  </div>
 
- `;
+  `;
 
- chat.scrollTop=
- chat.scrollHeight;
+  chat.scrollTop=
+  chat.scrollHeight;
 
  },300);
 
@@ -3661,131 +1371,161 @@ function askAI(){
 }
 
 
-/* =====================
-   DAILY
-===================== */
+/* =========================
+   DAILY REWARD
+========================= */
 
 function dailyReward(){
 
  const today=
  new Date().toDateString();
 
- if(
- localStorage.getItem("dailyReward")
- ===today
- ){
+ const last=
+ localStorage.getItem(
+  "mangaVerseDaily"
+ );
 
- alert("🎁 أخذت مكافأتك اليوم!");
+ if(last===today){
 
- return;
+  alert("🎁 أخذت مكافأتك اليوم!");
+
+  return;
 
  }
 
  coins+=20;
 
  localStorage.setItem(
- "coins",
- coins
+  "mangaVerseDaily",
+  today
  );
 
- localStorage.setItem(
- "dailyReward",
- today
- );
+ saveState();
 
  updateStats();
 
- alert(
- "🎉 حصلت على 20 🪙!"
+ alert("🎉 حصلت على 20 🪙!");
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function saveState(){
+
+ localStorage.setItem(
+  "mangaVerseManga",
+  JSON.stringify(manga)
+ );
+
+ localStorage.setItem(
+  "mangaVerseFavorites",
+  JSON.stringify(favorites)
+ );
+
+ localStorage.setItem(
+  "mangaVerseCoins",
+  coins
+ );
+
+ localStorage.setItem(
+  "mangaVerseReads",
+  reads
  );
 
 }
 
 
-/* =====================
-   UI
-===================== */
+/* =========================
+   MODALS
+========================= */
 
 function openModal(id){
 
- document
- .getElementById(id)
- .classList.add("active");
+ const el=
+ document.getElementById(id);
+
+ if(el)
+ el.classList.add("active");
 
 }
 
 
 function closeModal(id){
 
- document
- .getElementById(id)
- .classList.remove("active");
+ const el=
+ document.getElementById(id);
+
+ if(el)
+ el.classList.remove("active");
 
 }
 
 
-function scrollToId(id){
+/* =========================
+   NAVIGATION
+========================= */
 
- document
- .getElementById(id)
- .scrollIntoView({
-  behavior:"smooth"
- });
+function goTo(id){
+
+ const el=
+ document.getElementById(id);
+
+ if(el){
+
+  el.scrollIntoView({
+   behavior:"smooth",
+   block:"start"
+  });
+
+ }
 
 }
 
 
-/* =====================
+/* =========================
    STATS
-===================== */
+========================= */
 
 function updateStats(){
 
- document.getElementById(
- "coins"
- ).textContent=coins;
+ document.getElementById("coins")
+ .textContent=coins;
 
- document.getElementById(
- "accountCoins"
- ).textContent=coins;
+ document.getElementById("accountCoins")
+ .textContent=coins;
 
- document.getElementById(
- "readCount"
- ).textContent=reads;
+ document.getElementById("readCount")
+ .textContent=reads;
 
- document.getElementById(
- "accountReads"
- ).textContent=reads;
+ document.getElementById("accountReads")
+ .textContent=reads;
 
- document.getElementById(
- "favCount"
- ).textContent=
- favorites.length;
+ document.getElementById("favCount")
+ .textContent=favorites.length;
 
- document.getElementById(
- "accountFavs"
- ).textContent=
- favorites.length;
+ document.getElementById("accountFavs")
+ .textContent=favorites.length;
 
- document.getElementById(
- "level"
- ).textContent=
+ document.getElementById("level")
+ .textContent=
  Math.max(
- 1,
- Math.floor(reads/5)+1
+  1,
+  Math.floor(reads/5)+1
  );
 
- document.getElementById(
- "profileName"
- ).textContent=
+ document.getElementById("profileName")
+ .textContent=
  "👤 "+user;
 
 }
 
 
-/* =====================
-   SECURITY
-===================== */
+/* =========================
+   ESCAPE
+========================= */
 
 function escapeHTML(str){
 
@@ -3799,9 +1539,30 @@ function escapeHTML(str){
 }
 
 
-/* =====================
+/* =========================
+   CLOSE MODAL BY BACKDROP
+========================= */
+
+document
+.querySelectorAll(".modal")
+.forEach(modal=>{
+
+ modal.addEventListener("click",function(e){
+
+  if(e.target===modal){
+
+   modal.classList.remove("active");
+
+  }
+
+ });
+
+});
+
+
+/* =========================
    START
-===================== */
+========================= */
 
 render();
 
