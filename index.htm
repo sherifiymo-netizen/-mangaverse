@@ -1530,3 +1530,114 @@ updateStats();
 
 </body>
 </html>
+<script>
+function sendMessage() {
+    const input = document.getElementById("userInput");
+    const chatBox = document.getElementById("chatBox");
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    // عرض رسالة المستخدم
+    chatBox.innerHTML += `
+        <div class="message user">
+            ${escapeHTML(text)}
+        </div>
+    `;
+
+    input.value = "";
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    const t = text.toLowerCase();
+    let response = "";
+
+    // التحيات
+    if (
+        t.includes("السلام عليكم") ||
+        t.includes("السلام") ||
+        t.includes("مرحبا") ||
+        t.includes("اهلا") ||
+        t.includes("أهلا") ||
+        t.includes("هاي") ||
+        t.includes("hello") ||
+        t.includes("hi")
+    ) {
+        response = "وعليكم السلام ورحمة الله وبركاته 🌟 أهلاً وسهلاً بك في MangaVerse! كيف يمكنني مساعدتك اليوم؟ 🤖📚";
+    }
+
+    // كيف حالك
+    else if (
+        t.includes("كيفك") ||
+        t.includes("كيف حالك") ||
+        t.includes("شو اخبارك") ||
+        t.includes("شلونك")
+    ) {
+        response = "أنا بخير والحمد لله 🤖✨ وشكراً لسؤالك! أنا جاهز أساعدك في MangaVerse 📚";
+    }
+
+    // الشكر
+    else if (
+        t.includes("شكرا") ||
+        t.includes("شكرًا") ||
+        t.includes("مشكور") ||
+        t.includes("يعطيك العافية")
+    ) {
+        response = "العفو! ❤️ سعيد أني قدرت أساعدك. إذا احتجت أي شيء أنا موجود 🤖";
+    }
+
+    // وداع
+    else if (
+        t.includes("باي") ||
+        t.includes("مع السلامة") ||
+        t.includes("تصبح على خير")
+    ) {
+        response = "مع السلامة 👋✨ أتمنى لك قراءة ممتعة في MangaVerse!";
+    }
+
+    // سؤال عن MangaVerse
+    else if (
+        t.includes("مانغا") ||
+        t.includes("منجا") ||
+        t.includes("manga")
+    ) {
+        response = "📚 أكيد! أخبرني بنوع المانغا التي تحبها، مثل أكشن أو فانتازيا أو غموض، وسأحاول مساعدتك.";
+    }
+
+    // سؤال عن التوصيات
+    else if (
+        t.includes("اقترح") ||
+        t.includes("اقتراح") ||
+        t.includes("رشح") ||
+        t.includes("توصية")
+    ) {
+        response = "🤖 بالتأكيد! أخبرني ما النوع الذي تفضله: ⚔️ أكشن، 🪄 فانتازيا، 🕵️ غموض، 😂 كوميديا أو 🏆 رياضة.";
+    }
+
+    // رد افتراضي
+    else {
+        response = "🤖 فهمت! أخبرني أكثر وسأحاول مساعدتك. يمكنك أن تسألني عن المانغا أو البحث أو المفضلة أو القراءة 📚✨";
+    }
+
+    // تأخير بسيط ليبدو الرد طبيعيًا
+    setTimeout(() => {
+        chatBox.innerHTML += `
+            <div class="message ai">
+                ${response}
+            </div>
+        `;
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }, 500);
+}
+
+
+// حماية النص الذي يكتبه المستخدم
+function escapeHTML(text) {
+    return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+}
+</script>
