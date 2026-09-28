@@ -1574,3 +1574,507 @@ updateStats();
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaVerse - عالم المانغا بذكاء اصطناعي</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-dark: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #ec4899;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #334155;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--text-main);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(to bottom, #1e1b4b, var(--bg-dark));
+        }
+
+        .hero h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            width: 100%;
+            flex: 1;
+        }
+
+        section {
+            margin-bottom: 3rem;
+        }
+
+        h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            border-right: 4px solid var(--primary);
+            padding-right: 0.75rem;
+        }
+
+        /* شبكة عرض المانغا الشهيرة */
+        .manga-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .manga-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .manga-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(99, 102, 241, 0.2);
+        }
+
+        .manga-cover {
+            height: 250px;
+            background: #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .manga-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fbbf24;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .manga-info {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+            justify-content: space-between;
+        }
+
+        .manga-info h3 {
+            font-size: 1rem;
+        }
+
+        .tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .manga-info span.tag {
+            font-size: 0.75rem;
+            color: var(--accent);
+            background: rgba(236, 72, 153, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .read-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .read-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        /* قسم الذكاء الاصطناعي */
+        .ai-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #334155;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+        }
+
+        .ai-chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .message {
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+            line-height: 1.4;
+        }
+
+        .message.ai {
+            background: var(--primary);
+            color: white;
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: #334155;
+            color: var(--text-main);
+            align-self: flex-end;
+        }
+
+        .ai-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .ai-input-group input {
+            flex: 1;
+            background: var(--bg-dark);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: white;
+            outline: none;
+        }
+
+        .ai-input-group input:focus {
+            border-color: var(--primary);
+        }
+
+        .ai-input-group button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .ai-input-group button:hover {
+            background: var(--primary-hover);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-top: 1px solid #334155;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">⚡ MangaVerse AI</div>
+        <nav>
+            <a href="#">الرئيسية</a>
+            <a href="#manga">قائمة المانغا</a>
+            <a href="#ai-assistant">المساعد الذكي</a>
+            <a href="#profile">حسابي (🪙 120)</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>عالم المانغا بين يديك مع الذكاء الاصطناعي ⚡</h1>
+        <p>اكتشف أكثر من 10 أعمال مانغا عالمية شهيرة، وتحدث مع المساعد الذكي للاستفسار والاقتراح.</p>
+    </section>
+
+    <main>
+        <!-- قائمة أشهر المانغا (أكثر من 10 أعمال) -->
+        <section id="manga">
+            <h2>🔥 أشهر المانغا العالمية (أكثر من 10 أعمال)</h2>
+            <div class="manga-grid">
+                
+                <!-- 1 -->
+                <div class="manga-card">
+                    <div class="manga-cover">⚔️<div class="manga-badge">⭐ 4.9</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>سولو ليفينغ (Solo Leveling)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">أكشن</span><span class="tag">مغامرة</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول سولو ليفينغ...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 2 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🌊<div class="manga-badge">⭐ 4.8</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>ون بيس (One Piece)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">مغامرة</span><span class="tag">فانتازيا</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول ون بيس...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 3 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🔥<div class="manga-badge">⭐ 4.7</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>قاتل الشياطين (Kimetsu no Yaiba)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">أكشن</span><span class="tag">دراما</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول قاتل الشياطين...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 4 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🌀<div class="manga-badge">⭐ 4.9</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>جوجوتسو كايسن (Jujutsu Kaisen)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">أكشن</span><span class="tag">خارق للطبيعة</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول جوجوتسو كايسن...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 5 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🍎<div class="manga-badge">⭐ 4.8</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>مذكرة الموت (Death Note)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">غموض</span><span class="tag">إثارة</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول مذكرة الموت...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 6 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🦾<div class="manga-badge">⭐ 4.8</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>هجوم العمالقة (Attack on Titan)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">دراما</span><span class="tag">غموض</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول هجوم العمالقة...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 7 -->
+                <div class="manga-card">
+                    <div class="manga-cover">⚡<div class="manga-badge">⭐ 4.7</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>نااروتو (Naruto)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">أكشن</span><span class="tag">شونين</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول ناروتو...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 8 -->
+                <div class="manga-card">
+                    <div class="manga-cover">👊<div class="manga-badge">⭐ 4.6</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>رجل اللكمة الواحدة (One-Punch Man)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">كوميديا</span><span class="tag">أكشن</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول رجل اللكمة الواحدة...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 9 -->
+                <div class="manga-card">
+                    <div class="manga-cover">⚽<div class="manga-badge">⭐ 4.8</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>بلو لوك (Blue Lock)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">رياضة</span><span class="tag">حماس</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول بلو لوك...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 10 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🦸<div class="manga-badge">⭐ 4.7</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>أكاديمية بطلي (My Hero Academia)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">أكشن</span><span class="tag">قوى خارقة</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول أكاديمية بطلي...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 11 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🖤<div class="manga-badge">⭐ 4.9</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>بيرزيرك (Berserk)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">فانتازيا مظلمة</span><span class="tag">سينين</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول بيرزيرك...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+                <!-- 12 -->
+                <div class="manga-card">
+                    <div class="manga-cover">🧪<div class="manga-badge">⭐ 4.7</div></div>
+                    <div class="manga-info">
+                        <div>
+                            <h3>دكتور ستون (Dr. Stone)</h3>
+                            <div class="tags" style="margin-top: 5px;"><span class="tag">خيال علمي</span><span class="tag">مغامرة</span></div>
+                        </div>
+                        <button class="read-btn" onclick="alert('جاري فتح فصول دكتور ستون...')">اقرأ الان</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- قسم الذكاء الاصطناعي -->
+        <section id="ai-assistant">
+            <h2>🤖 مساعد MangaVerse الذكي</h2>
+            <div class="ai-container">
+                <div class="ai-chat-box" id="chatBox">
+                    <div class="message ai">أهلاً بك! تم إضافة أكثر من 10 مانغايات شهيرة إلى القائمة. اسألني عن أي منها أو اطلب ترشيحاً يناسب ذوقك!</div>
+                </div>
+                <div class="ai-input-group">
+                    <input type="text" id="userInput" placeholder="اسألني عن الأكشن، الغموض، أو أي مانغا..." onkeypress="handleKeyPress(event)">
+                    <button onclick="sendMessage()">إرسال</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        MangaVerse AI © 2026 — منصة متكاملة في ملف واحد
+    </footer>
+
+    <script>
+        function sendMessage() {
+            const inputField = document.getElementById('userInput');
+            const chatBox = document.getElementById('chatBox');
+            const userText = inputField.value.trim();
+
+            if (!userText) return;
+
+            chatBox.innerHTML += `<div class="message user">${userText}</div>`;
+            inputField.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            setTimeout(() => {
+                let aiResponse = "اختر ما يناسبك من القائمة في الأعلى، فلدينا أفضل المانغايات العالمية بانتظارك!";
+                const textLower = userText.toLowerCase();
+
+                if (textLower.includes('توصية') || textLower.includes('اقترح') || textLower.includes('رشح')) {
+                    aiResponse = "إذا كنت تحب الغموض أنصحك بـ 'مذكرة الموت'، وللأكشن السريع 'سولو ليفينغ'، أما للحماس الرياضي فـ 'بلو لوك' خيار ممتاز!";
+                } else if (textLower.includes('برزيرك') || textLower.includes('berserk')) {
+                    aiResponse = "بيرزيرك تعد واحدة من أعظم مانغايات السينين والفانتازيا المظلمة بقصة ملحمية ورسوم أسطورية.";
+                } else if (textLower.includes('بلو لوك') || textLower.includes('blue lock')) {
+                    aiResponse = "بلو لوك مانغا رياضية حماسية ومختلفة كلياً عن أسلوب القصص الكلاسيكية لكرة القدم!";
+                }
+
+                chatBox.innerHTML += `<div class="message ai">${aiResponse}</div>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 800);
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
