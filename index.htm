@@ -3620,3 +3620,131 @@ updateStats();
 
 </body>
 </html>
+-- 1. إنشاء جدول الملفات الشخصية (Profiles) المرتبط بـ auth.users
+create table public.profiles (
+  id uuid references auth.users on delete cascade primary key,
+  username text unique,
+  avatar_url text,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.profiles enable row level security;
+
+create policy "Public profiles are viewable by everyone." on public.profiles for select using (true);
+create policy "Users can insert their own profile." on public.profiles for insert with check (auth.uid() = id);
+create policy "Users can update own profile." on public.profiles for update using (auth.uid() = id);
+
+-- Trigger تلقائي لإنشاء بروفيل عند تسجيل مستخدم جديد
+create function public.handle_new_user()
+returns trigger as $$
+begin
+  insert into public.profiles (id, username, avatar_url)
+  values (new.id, new.raw_user_meta_data->>'username', new.raw_user_meta_data->>'avatar_url');
+  return new;
+end;
+$$ language plpgsql security definer;
+
+create trigger on_auth_user_created
+  after insert on auth.users
+  for each row execute procedure public.handle_new_user();
+
+
+-- 2. جدول المانغا (Manga)
+create table public.manga (
+  id uuid default gen_random_uuid() primary key,
+  title text not null,
+  description text,
+  author text,
+  category text,
+  status text default 'مستمرة',
+  cover_url text,
+  additional_info text,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  views_count int default 0,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.manga enable row level security;
+
+create policy "Manga is viewable by everyone." on public.manga for select using (true);
+create policy "Authenticated users can insert manga." on public.manga for insert with check (auth.role() = 'authenticated');
+create policy "Users can update own manga." on public.manga for update using (auth.uid() = user_id);
+create policy "Users can delete own manga." on public.manga for delete using (auth.uid() = user_id);
+
+
+-- 3. جدول الفصول (Chapters)
+create table public.chapters (
+  id uuid default gen_random_uuid() primary key,
+  manga_id uuid references public.manga(id) on delete cascade not null,
+  title text not null,
+  chapter_number numeric not null,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.chapters enable row level security;
+
+create policy "Chapters are viewable by everyone." on public.chapters for select using (true);
+create policy "Authenticated users can insert chapters." on public.chapters for insert with check (auth.role() = 'authenticated');
+create policy "Users can update own chapters." on public.chapters for update using (auth.uid() = user_id);
+create policy "Users can delete own chapters." on public.chapters for delete using (auth.uid() = user_id);
+
+
+-- 4. جدول صور الفصول (Chapter Pages)
+create table public.chapter_pages (
+  id uuid default gen_random_uuid() primary key,
+  chapter_id uuid references public.chapters(id) on delete cascade not null,
+  image_url text not null,
+  page_order int not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.chapter_pages enable row level security;
+
+create policy "Chapter pages are viewable by everyone." on public.chapter_pages for select using (true);
+create policy "Users can manage pages of own chapters." on public.chapter_pages for all using (
+  exists (
+    select 1 from public.chapters c where c.id = chapter_pages.chapter_id and c.user_id = auth.uid()
+  )
+);
+
+
+-- 5. جدول المفضلة (Favorites)
+create table public.favorites (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  manga_id uuid references public.manga(id) on delete cascade not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  unique(user_id, manga_id)
+);
+
+alter table public.favorites enable row level security;
+
+create policy "Users can view own favorites." on public.favorites for select using (auth.uid() = user_id);
+create policy "Users can insert own favorites." on public.favorites for insert with check (auth.uid() = user_id);
+create policy "Users can delete own favorites." on public.favorites for delete using (auth.uid() = user_id);
+
+
+-- 6. جدول التعليقات (Comments)
+create table public.comments (
+  id uuid default gen_random_uuid() primary key,
+  manga_id uuid references public.manga(id) on delete cascade not null,
+  user_id uuid references auth.users(id) on delete cascade not null,
+  content text not null,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+alter table public.comments enable row level security;
+
+create policy "Comments are viewable by everyone." on public.comments for select using (true);
+create policy "Authenticated users can insert comments." on public.comments for insert with check (auth.role() = 'authenticated');
+create policy "Users can delete own comments." on public.comments for delete using (auth.uid() = user_id);
+
+
+-- 7. إعداد Storage Buckets (تأكد من إنشاء bucket باسم 'manga-storage' وجعلها Public من لوحة تحكم Supabase)
+insert into storage.buckets (id, name, public) values ('manga-storage', 'manga-storage', true) on conflict do nothing;
+
+create policy "Storage public access" on storage.objects for select using (bucket_id = 'manga-storage');
+create policy "Authenticated users can upload storage" on storage.objects for insert with check (bucket_id = 'manga-storage' and auth.role() = 'authenticated');
+create policy "Users can update/delete own storage" on storage.objects for update using (bucket_id = 'manga-storage' and auth.uid() = owner);
+create policy "Users can delete own storage" on storage.objects for delete using (bucket_id = 'manga-storage' and auth.uid() = owner);
