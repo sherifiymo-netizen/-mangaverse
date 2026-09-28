@@ -1,176 +1,640 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StoryVerse - منصة المبدعين والقصص</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#8b5cf6',
-                        darkBg: '#0f172a',
-                        cardBg: '#1e293b'
-                    }
-                }
-            }
-        }
-    </script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MangaVerse</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+    background:#09090f;
+    color:#fff;
+    font-family:Arial,sans-serif;
+    padding-bottom:70px
+}
+header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:#101018ee;
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #292938;
+    padding:15px;
+    display:flex;
+    align-items:center;
+    gap:15px
+}
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    background:linear-gradient(90deg,#8b5cf6,#ec4899);
+    -webkit-background-clip:text;
+    color:transparent
+}
+.search{
+    flex:1;
+    max-width:500px;
+    background:#1a1a25;
+    color:#fff;
+    border:1px solid #303041;
+    border-radius:25px;
+    padding:11px 16px;
+    outline:none
+}
+.container{max-width:1200px;margin:auto;padding:20px}
+.hero{
+    padding:35px 25px;
+    border-radius:25px;
+    background:linear-gradient(135deg,#211538,#111827);
+    margin-bottom:25px
+}
+.hero h1{font-size:34px;margin-bottom:10px}
+.hero p{color:#aaa;line-height:1.8}
+.categories{
+    display:flex;
+    gap:10px;
+    overflow:auto;
+    margin-bottom:25px
+}
+.categories button,.back{
+    border:0;
+    background:#1c1c28;
+    color:#ddd;
+    padding:10px 17px;
+    border-radius:20px;
+    cursor:pointer;
+    white-space:nowrap
+}
+.categories button.active,
+.primary{
+    background:linear-gradient(90deg,#8b5cf6,#ec4899)!important;
+    color:white!important
+}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(170px,1fr));
+    gap:18px
+}
+.card{
+    background:#14141e;
+    border:1px solid #292936;
+    border-radius:17px;
+    overflow:hidden;
+    cursor:pointer;
+    transition:.2s
+}
+.card:hover{
+    transform:translateY(-5px);
+    border-color:#8b5cf6
+}
+.cover{
+    height:245px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:65px;
+    background:linear-gradient(145deg,#5b21b6,#111827)
+}
+.card:nth-child(2) .cover{background:linear-gradient(145deg,#be185d,#111827)}
+.card:nth-child(3) .cover{background:linear-gradient(145deg,#0369a1,#111827)}
+.card:nth-child(4) .cover{background:linear-gradient(145deg,#b45309,#111827)}
+.card:nth-child(5) .cover{background:linear-gradient(145deg,#047857,#111827)}
+.info{padding:13px}
+.info h3{margin-bottom:7px}
+.info p{color:#9292a3;font-size:13px}
+.rating{color:#fbbf24;margin-top:8px}
+
+#details,#reader{display:none}
+
+.details{
+    display:grid;
+    grid-template-columns:250px 1fr;
+    gap:25px
+}
+.detail-cover{
+    height:350px;
+    border-radius:18px;
+    background:linear-gradient(145deg,#5b21b6,#111827);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:90px
+}
+.description{
+    color:#aaa;
+    line-height:1.9;
+    margin:15px 0
+}
+.actions{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap
+}
+.actions button{
+    border:0;
+    padding:12px 18px;
+    border-radius:12px;
+    background:#252532;
+    color:white;
+    cursor:pointer
+}
+.chapters{
+    margin-top:30px;
+    display:grid;
+    gap:10px
+}
+.chapter{
+    background:#15151f;
+    border:1px solid #292936;
+    padding:15px;
+    border-radius:12px;
+    cursor:pointer;
+    display:flex;
+    justify-content:space-between
+}
+.chapter:hover{border-color:#8b5cf6}
+
+.reader{
+    max-width:850px;
+    margin:auto
+}
+.reader-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:15px
+}
+.page{
+    width:100%;
+    min-height:600px;
+    background:linear-gradient(180deg,#171721,#08080d);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    border-radius:15px;
+    overflow:hidden
+}
+.manga-page{
+    width:100%;
+    min-height:500px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:100px;
+    background:linear-gradient(145deg,#27203d,#101016);
+}
+.reader-controls{
+    display:flex;
+    justify-content:center;
+    gap:10px;
+    margin-top:15px
+}
+.reader-controls button{
+    padding:12px 20px;
+    border:0;
+    border-radius:10px;
+    background:#242431;
+    color:white;
+    cursor:pointer
+}
+.bottom{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:30;
+    background:#101018f5;
+    border-top:1px solid #292936;
+    display:flex;
+    justify-content:space-around;
+    padding:10px
+}
+.bottom button{
+    border:0;
+    background:none;
+    color:#aaa;
+    cursor:pointer
+}
+.bottom span{
+    display:block;
+    font-size:20px
+}
+.empty{
+    text-align:center;
+    color:#888;
+    padding:50px
+}
+
+@media(max-width:650px){
+    .details{grid-template-columns:1fr}
+    .detail-cover{height:280px}
+    .hero h1{font-size:27px}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .cover{height:210px}
+    header .logo{font-size:19px}
+}
+</style>
 </head>
-<body class="bg-darkBg text-slate-100 font-sans antialiased min-h-screen flex flex-col">
 
-    <!-- شريط التنقل العلوي -->
-    <header class="bg-cardBg border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
-            <div class="flex items-center space-x-3 space-x-reverse">
-                <i class="fa-solid fa-book-open-reader text-primary text-2xl"></i>
-                <span class="text-xl font-bold bg-gradient-to-r from-primary to-pink-500 bg-clip-text text-transparent">StoryVerse</span>
-            </div>
-            <!-- شريط البحث -->
-            <div class="hidden md:flex items-center bg-slate-900 rounded-full px-4 py-2 w-96 border border-slate-700">
-                <i class="fa-solid fa-search text-slate-400 ml-2"></i>
-                <input type="text" id="searchInput" placeholder="ابحث عن قصص، مانجا، مبدعين..." class="bg-transparent border-none outline-none text-sm w-full text-slate-200">
-            </div>
-            <!-- أزرار الحساب -->
-            <div class="flex items-center space-x-4 space-x-reverse">
-                <button onclick="openAuthModal()" class="bg-primary hover:bg-primary/85 px-4 py-2 rounded-full text-sm font-semibold transition">تسجيل الدخول</button>
-            </div>
-        </div>
-    </header>
+<body>
 
-    <!-- المحتوى الرئيسي -->
-    <main class="flex-1 max-w-7xl w-full mx-auto p-4 pb-20 md:pb-6 grid grid-cols-1 md:grid-cols-4 gap-6">
-        
-        <!-- القائمة الجانبية (الكمبيوتر) -->
-        <aside class="hidden md:block col-span-1 space-y-2">
-            <a href="#" onclick="switchTab('home')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl bg-primary/20 text-primary font-medium transition"><i class="fa-solid fa-house w-6"></i><span>الرئيسية</span></a>
-            <a href="#" onclick="switchTab('stories')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition"><i class="fa-solid fa-book w-6"></i><span>القصص</span></a>
-            <a href="#" onclick="switchTab('manga')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition"><i class="fa-solid fa-masks-theater w-6"></i><span>المانجا</span></a>
-            <a href="#" onclick="switchTab('ai')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition"><i class="fa-solid fa-wand-magic-sparkles w-6 text-pink-400"></i><span>StoryVerse AI</span></a>
-            <a href="#" onclick="switchTab('chat')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition"><i class="fa-solid fa-comments w-6"></i><span>الدردشة والغرف</span></a>
-            <a href="#" onclick="switchTab('profile')" class="tab-btn flex items-center space-x-3 space-x-reverse px-4 py-3 rounded-xl hover:bg-slate-800 text-slate-300 transition"><i class="fa-solid fa-user w-6"></i><span>الملف الشخصي</span></a>
-        </aside>
+<header>
+    <div class="logo">📚 MangaVerse</div>
+    <input
+        class="search"
+        id="search"
+        placeholder="🔎 ابحث عن مانجا..."
+        oninput="searchManga()"
+    >
+</header>
 
-        <!-- مساحة العرض الديناميكية -->
-        <section id="mainContent" class="col-span-1 md:col-span-3 space-y-6">
-            <!-- قسم الرئيسية الافتراضي -->
-            <div class="space-y-4">
-                <div class="flex space-x-2 space-x-reverse overflow-x-auto pb-2">
-                    <button class="px-4 py-1.5 rounded-full bg-primary text-white text-sm whitespace-nowrap">لك</button>
-                    <button class="px-4 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm whitespace-nowrap">الأحدث</button>
-                    <button class="px-4 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm whitespace-nowrap">الأكثر تفاعلاً</button>
-                    <button class="px-4 py-1.5 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm whitespace-nowrap">المبدعون</button>
-                </div>
+<main class="container">
 
-                <!-- بطاقة قصة تجريبية -->
-                <div class="bg-cardBg border border-slate-800 rounded-2xl p-5 space-y-4 shadow-lg">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center font-bold">م</div>
-                            <div>
-                                <h4 class="font-bold text-sm">محمد المبدع</h4>
-                                <span class="text-xs text-slate-400">منذ ساعتين</span>
-                            </div>
-                        </div>
-                        <button class="text-slate-400 hover:text-white"><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-bold mb-2">رحلة إلى أبعاد الزمن - الفصل الأول</h3>
-                        <p class="text-slate-300 text-sm leading-relaxed">في عالم يملؤه الغموض، تبدأ رحلة البطل لاكتشاف السر وراء الساعات المتوقفة وكيف يمكن إعادة تدفق الزمن...</p>
-                    </div>
-                    <div class="rounded-xl overflow-hidden bg-slate-900 h-48 flex items-center justify-center border border-slate-800">
-                        <i class="fa-solid fa-image text-4xl text-slate-600"></i>
-                    </div>
-                    <div class="flex items-center justify-between pt-2 border-t border-slate-800 text-slate-400 text-sm">
-                        <button class="hover:text-red-500 flex items-center space-x-1 space-x-reverse"><i class="fa-regular fa-heart"></i><span>245</span></button>
-                        <button class="hover:text-primary flex items-center space-x-1 space-x-reverse"><i class="fa-regular fa-comment"></i><span>42</span></button>
-                        <button class="hover:text-blue-500 flex items-center space-x-1 space-x-reverse"><i class="fa-solid fa-share"></i><span>مشاركة</span></button>
-                        <button class="hover:text-yellow-500"><i class="fa-regular fa-bookmark"></i></button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
+<!-- HOME -->
 
-    <!-- شريط التنقل السفلي للهاتف -->
-    <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-cardBg border-t border-slate-800 flex justify-around py-3 z-50">
-        <button onclick="switchTab('home')" class="text-primary flex flex-col items-center text-xs"><i class="fa-solid fa-house text-lg"></i><span>الرئيسية</span></button>
-        <button onclick="switchTab('stories')" class="text-slate-400 flex flex-col items-center text-xs"><i class="fa-solid fa-book text-lg"></i><span>القصص</span></button>
-        <button onclick="switchTab('ai')" class="text-slate-400 flex flex-col items-center text-xs"><i class="fa-solid fa-wand-magic-sparkles text-lg text-pink-400"></i><span>AI</span></button>
-        <button onclick="switchTab('chat')" class="text-slate-400 flex flex-col items-center text-xs"><i class="fa-solid fa-comments text-lg"></i><span>الدردشة</span></button>
-        <button onclick="switchTab('profile')" class="text-slate-400 flex flex-col items-center text-xs"><i class="fa-solid fa-user text-lg"></i><span>حسابي</span></button>
-    </nav>
+<section id="home">
 
-    <!-- نافذة تسجيل الدخول المنبثقة (Modal) -->
-    <div id="authModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
-        <div class="bg-cardBg border border-slate-800 w-full max-w-md rounded-2xl p-6 space-y-4 relative">
-            <button onclick="closeAuthModal()" class="absolute left-4 top-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="text-xl font-bold text-center">تسجيل الدخول إلى StoryVerse</h3>
-            <div class="space-y-3">
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">البريد الإلكتروني</label>
-                    <input type="email5" placeholder="name@example.com" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-primary">
-                </div>
-                <div>
-                    <label class="text-xs text-slate-400 block mb-1">كلمة المرور</label>
-                    <input type="password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-primary">
-                </div>
-                <button class="w-full bg-primary hover:bg-primary/85 py-3 rounded-xl font-semibold transition text-sm">دخول</button>
-            </div>
-        </div>
+    <div class="hero">
+        <h1>اكتشف عالم المانجا ✨</h1>
+        <p>
+            اقرأ أعمالك المفضلة، اكتشف قصصًا جديدة،
+            واحفظ الفصول التي تريد العودة إليها.
+        </p>
     </div>
 
-    <!-- JavaScript الأساسي للتحكم بالواجهات -->
-    <script>
-        function openAuthModal() {
-            document.getElementById('authModal').classList.remove('hidden');
-            document.getElementById('authModal').classList.add('flex');
-        }
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.remove('flex');
-            document.getElementById('authModal').classList.add('hidden');
-        }
-        function switchTab(tabName) {
-            const contentContainer = document.getElementById('mainContent');
-            if(tabName === 'ai') {
-                contentContainer.innerHTML = `
-                    <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 space-y-4">
-                        <div class="flex items-center space-x-3 space-x-reverse">
-                            <i class="fa-solid fa-wand-magic-sparkles text-2xl text-pink-400"></i>
-                            <h2 class="text-xl font-bold">StoryVerse AI - مساعد المبدعين</h2>
-                        </div>
-                        <p class="text-slate-300 text-sm">اكتب فكرة قصتك أو السيناريو الخاص بك، واطلب من الذكاء الاصطناعي تطويرها أو اقتراح أحداث وشخصيات.</p>
-                        <textarea placeholder="اكتب فكرتك هنا (مثلاً: بطل يكتشف قدرته على قراءة أفكار القطط...)" class="w-full h-32 bg-slate-900 border border-slate-700 rounded-xl p-4 text-sm outline-none focus:border-primary resize-none"></textarea>
-                        <button class="bg-gradient-to-r from-primary to-pink-600 px-6 py-2.5 rounded-xl text-sm font-semibold shadow-lg">توليد وتطوير الفكرة</button>
-                    </div>
-                `;
-            } else if(tabName === 'profile') {
-                contentContainer.innerHTML = `
-                    <div class="bg-cardBg border border-slate-800 rounded-2xl p-6 space-y-6">
-                        <div class="flex items-center space-x-4 space-x-reverse">
-                            <div class="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-500 to-pink-500 flex items-center justify-center text-2xl font-bold">م</div>
-                            <div>
-                                <h2 class="text-xl font-bold">اسم المستخدم</h2>
-                                <p class="text-slate-400 text-sm">@username</p>
-                                <p class="text-slate-300 text-sm mt-1">كاتب وصانع قصص خيالية 🚀</p>
-                            </div>
-                        </div>
-                        <div class="flex space-x-6 space-x-reverse border-y border-slate-800 py-4 text-center">
-                            <div><span class="block font-bold text-lg">12</span><span class="text-xs text-slate-400">القصص</span></div>
-                            <div><span class="block font-bold text-lg">1.4K</span><span class="text-xs text-slate-400">المتابعون</span></div>
-                            <div><span class="block font-bold text-lg">340</span><span class="text-xs text-slate-400">المتابَعون</span></div>
-                        </div>
-                    </div>
-                `;
-            } else {
-                location.reload();
-            }
-        }
-    </script>
+    <div class="categories">
+        <button class="active" onclick="filterManga('الكل',this)">الكل</button>
+        <button onclick="filterManga('أكشن',this)">⚔️ أكشن</button>
+        <button onclick="filterManga('فانتازيا',this)">🔮 فانتازيا</button>
+        <button onclick="filterManga('مغامرة',this)">🌎 مغامرة</button>
+        <button onclick="filterManga('غموض',this)">🌙 غموض</button>
+    </div>
+
+    <h2 style="margin-bottom:15px">🔥 أشهر المانجا</h2>
+
+    <div class="grid" id="mangaGrid"></div>
+
+</section>
+
+
+<!-- DETAILS -->
+
+<section id="details">
+
+    <button class="back" onclick="showHome()">← العودة</button>
+
+    <div style="height:20px"></div>
+
+    <div class="details">
+
+        <div class="detail-cover" id="detailCover">⚔️</div>
+
+        <div>
+            <h1 id="detailTitle"></h1>
+
+            <div class="rating">★★★★★ 9.4</div>
+
+            <p class="description" id="detailDescription"></p>
+
+            <div class="actions">
+                <button class="primary" onclick="readChapter(1)">
+                    📖 ابدأ القراءة
+                </button>
+
+                <button onclick="favorite()">
+                    ❤️ إضافة للمفضلة
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <h2 style="margin-top:30px">📑 الفصول</h2>
+
+    <div class="chapters" id="chapters"></div>
+
+</section>
+
+
+<!-- READER -->
+
+<section id="reader">
+
+    <div class="reader">
+
+        <div class="reader-head">
+
+            <button class="back" onclick="backDetails()">
+                ← رجوع
+            </button>
+
+            <h2 id="readerTitle">الفصل 1</h2>
+
+        </div>
+
+        <div class="page">
+
+            <div class="manga-page" id="mangaPage">
+                🗡️
+            </div>
+
+            <p id="pageText" style="color:#aaa">
+                صفحة المانجا التجريبية
+            </p>
+
+        </div>
+
+        <div class="reader-controls">
+
+            <button onclick="previousPage()">⬅️ السابق</button>
+
+            <button onclick="nextPage()">التالي ➡️</button>
+
+        </div>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<nav class="bottom">
+
+    <button onclick="showHome()">
+        <span>🏠</span>
+        الرئيسية
+    </button>
+
+    <button onclick="showHome()">
+        <span>📚</span>
+        المكتبة
+    </button>
+
+    <button onclick="alert('سيتم ربط الحساب لاحقًا')">
+        <span>❤️</span>
+        المفضلة
+    </button>
+
+    <button onclick="alert('صفحة الحساب')">
+        <span>👤</span>
+        حسابي
+    </button>
+
+</nav>
+
+
+<script>
+
+const mangaData = [
+
+{
+    id:1,
+    title:"عرش الظلال",
+    genre:"فانتازيا",
+    icon:"⚔️",
+    description:"بطل غامض يدخل عالمًا مليئًا بالسحر والأسرار، ويكتشف أن قوة الظلال مرتبطة بماضيه.",
+    chapters:15
+},
+
+{
+    id:2,
+    title:"صياد الأرواح",
+    genre:"أكشن",
+    icon:"👹",
+    description:"محارب شاب يبدأ رحلة خطيرة لمواجهة مخلوقات غامضة تهدد المدن.",
+    chapters:22
+},
+
+{
+    id:3,
+    title:"أبعاد مجهولة",
+    genre:"مغامرة",
+    icon:"🌌",
+    description:"مجموعة من الأصدقاء يعثرون على بوابة تقود إلى عوالم لا يعرفها البشر.",
+    chapters:11
+},
+
+{
+    id:4,
+    title:"مدينة الليل",
+    genre:"غموض",
+    icon:"🌙",
+    description:"مدينة لا يظهر فيها النهار، وكل ليلة تكشف سرًا جديدًا عن سكانها.",
+    chapters:18
+},
+
+{
+    id:5,
+    title:"آخر فارس",
+    genre:"أكشن",
+    icon:"🛡️",
+    description:"آخر فارس في مملكة منسية يحاول استعادة السلام بعد سقوط المملكة.",
+    chapters:20
+}
+
+];
+
+let currentManga=null;
+let currentPage=1;
+
+function renderManga(list=mangaData){
+
+    const grid=document.getElementById("mangaGrid");
+
+    grid.innerHTML="";
+
+    if(!list.length){
+
+        grid.innerHTML=`
+            <div class="empty">
+                لا توجد نتائج 🔎
+            </div>
+        `;
+
+        return;
+    }
+
+    list.forEach(manga=>{
+
+        grid.innerHTML+=`
+
+        <div class="card" onclick="openManga(${manga.id})">
+
+            <div class="cover">
+                ${manga.icon}
+            </div>
+
+            <div class="info">
+
+                <h3>${manga.title}</h3>
+
+                <p>${manga.genre} • ${manga.chapters} فصل</p>
+
+                <div class="rating">
+                    ★★★★★
+                </div>
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+function openManga(id){
+
+    currentManga=mangaData.find(m=>m.id===id);
+
+    document.getElementById("home").style.display="none";
+    document.getElementById("details").style.display="block";
+    document.getElementById("reader").style.display="none";
+
+    document.getElementById("detailCover").innerText=currentManga.icon;
+    document.getElementById("detailTitle").innerText=currentManga.title;
+    document.getElementById("detailDescription").innerText=currentManga.description;
+
+    const chapters=document.getElementById("chapters");
+
+    chapters.innerHTML="";
+
+    for(let i=currentManga.chapters;i>=1;i--){
+
+        chapters.innerHTML+=`
+
+        <div class="chapter" onclick="readChapter(${i})">
+
+            <span>📖 الفصل ${i}</span>
+
+            <span>قراءة ←</span>
+
+        </div>
+
+        `;
+
+    }
+
+    window.scrollTo(0,0);
+
+}
+
+function readChapter(chapter){
+
+    currentPage=1;
+
+    document.getElementById("home").style.display="none";
+    document.getElementById("details").style.display="none";
+    document.getElementById("reader").style.display="block";
+
+    document.getElementById("readerTitle").innerText=
+        currentManga.title+" — الفصل "+chapter;
+
+    updatePage();
+
+    window.scrollTo(0,0);
+
+}
+
+function updatePage(){
+
+    document.getElementById("pageText").innerText=
+        "صفحة "+currentPage+" من 10";
+
+    document.getElementById("mangaPage").innerText=
+        currentManga.icon;
+
+}
+
+function nextPage(){
+
+    if(currentPage<10){
+
+        currentPage++;
+        updatePage();
+
+    }
+
+}
+
+function previousPage(){
+
+    if(currentPage>1){
+
+        currentPage--;
+        updatePage();
+
+    }
+
+}
+
+function backDetails(){
+
+    document.getElementById("reader").style.display="none";
+    document.getElementById("details").style.display="block";
+
+}
+
+function showHome(){
+
+    document.getElementById("home").style.display="block";
+    document.getElementById("details").style.display="none";
+    document.getElementById("reader").style.display="none";
+
+    window.scrollTo(0,0);
+
+}
+
+function favorite(){
+
+    alert("❤️ تمت إضافة "+currentManga.title+" إلى المفضلة");
+
+}
+
+function filterManga(genre,button){
+
+    document.querySelectorAll(".categories button")
+    .forEach(b=>b.classList.remove("active"));
+
+    button.classList.add("active");
+
+    if(genre==="الكل"){
+
+        renderManga();
+
+    }else{
+
+        renderManga(
+            mangaData.filter(m=>m.genre===genre)
+        );
+
+    }
+
+}
+
+function searchManga(){
+
+    const value=
+        document.getElementById("search").value
+        .toLowerCase();
+
+    renderManga(
+        mangaData.filter(m=>
+            m.title.toLowerCase().includes(value) ||
+            m.genre.toLowerCase().includes(value)
+        )
+    );
+
+}
+
+renderManga();
+
+</script>
+
 </body>
 </html>
