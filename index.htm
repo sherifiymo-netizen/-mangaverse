@@ -2409,3 +2409,1407 @@ load();
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b12">
+<title>MangaVerse AI</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,Tahoma,sans-serif;
+ background:#080b12;
+ color:#fff;
+ padding-bottom:75px;
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer;border:0}
+header{
+ position:sticky;
+ top:0;
+ z-index:50;
+ background:rgba(8,11,18,.95);
+ backdrop-filter:blur(15px);
+ border-bottom:1px solid #202638;
+}
+.nav{
+ max-width:1200px;
+ margin:auto;
+ display:flex;
+ align-items:center;
+ gap:10px;
+ padding:14px;
+}
+.logo{
+ font-size:23px;
+ font-weight:900;
+ color:#8b5cf6;
+ white-space:nowrap;
+}
+.logo span{color:white}
+.search{
+ flex:1;
+ background:#111625;
+ border:1px solid #283047;
+ color:white;
+ border-radius:14px;
+ padding:11px 14px;
+ outline:none;
+}
+.btn{
+ background:#171d2d;
+ color:white;
+ padding:10px 14px;
+ border-radius:12px;
+}
+.primary{
+ background:linear-gradient(135deg,#7c3aed,#4f46e5);
+}
+.balance{
+ background:#21183a;
+ color:#d9c7ff;
+ padding:8px 11px;
+ border-radius:12px;
+}
+.container{
+ max-width:1200px;
+ margin:auto;
+ padding:20px 14px;
+}
+.hero{
+ padding:42px 24px;
+ border-radius:25px;
+ min-height:290px;
+ display:flex;
+ align-items:center;
+ background:
+ linear-gradient(90deg,rgba(9,11,20,.98),rgba(9,11,20,.55)),
+ radial-gradient(circle at 80%,#6d28d9,#101323 55%);
+}
+.hero h1{
+ font-size:40px;
+ margin:0 0 10px;
+}
+.hero p{
+ color:#b9c0d4;
+ max-width:650px;
+ line-height:1.8;
+}
+.actions{
+ display:flex;
+ gap:9px;
+ flex-wrap:wrap;
+}
+h2{margin-top:32px}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+ gap:15px;
+}
+.card{
+ background:#101522;
+ border:1px solid #20283b;
+ border-radius:18px;
+ overflow:hidden;
+}
+.card:hover{
+ border-color:#7046d9;
+ transform:translateY(-3px);
+ transition:.2s;
+}
+.cover{
+ width:100%;
+ height:220px;
+ object-fit:cover;
+ background:#1b2233;
+}
+.card-body{padding:12px}
+.card h3{
+ margin:0 0 7px;
+ font-size:16px;
+}
+.muted{
+ color:#8e98ae;
+ font-size:13px;
+ line-height:1.7;
+}
+.tags{
+ display:flex;
+ gap:5px;
+ flex-wrap:wrap;
+ margin:8px 0;
+}
+.tag{
+ background:#20283b;
+ color:#bda8ff;
+ border-radius:20px;
+ padding:4px 8px;
+ font-size:11px;
+}
+.panel{
+ background:#101522;
+ border:1px solid #20283b;
+ padding:18px;
+ border-radius:18px;
+}
+.public{
+ border-color:#9b7cff;
+ background:
+ linear-gradient(135deg,#161329,#101522);
+}
+.public-badge{
+ display:inline-block;
+ background:#263d2c;
+ color:#a7f3b4;
+ padding:5px 9px;
+ border-radius:20px;
+ font-size:11px;
+ margin-bottom:8px;
+}
+.modal{
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.78);
+ display:none;
+ align-items:center;
+ justify-content:center;
+ z-index:100;
+ padding:15px;
+}
+.modal.active{display:flex}
+.modal-box{
+ width:min(700px,100%);
+ max-height:90vh;
+ overflow:auto;
+ background:#101522;
+ border:1px solid #2c3650;
+ border-radius:20px;
+ padding:20px;
+}
+.close{
+ float:left;
+ background:#222a3c;
+ color:white;
+ padding:8px 12px;
+ border-radius:10px;
+}
+.form{
+ display:grid;
+ gap:12px;
+}
+.form input,
+.form textarea,
+.form select{
+ background:#0b0f19;
+ color:white;
+ border:1px solid #2b344b;
+ border-radius:12px;
+ padding:12px;
+ outline:none;
+}
+.form textarea{
+ min-height:120px;
+ resize:vertical;
+}
+.chat{
+ height:300px;
+ overflow:auto;
+ background:#0a0e17;
+ padding:10px;
+ border-radius:14px;
+}
+.message{
+ padding:12px;
+ border-radius:12px;
+ margin:8px 0;
+ max-width:90%;
+}
+.ai-msg{background:#211a38}
+.user-msg{
+ background:#1b2b46;
+ margin-right:auto;
+}
+.reader{
+ background:#000;
+ min-height:70vh;
+ text-align:center;
+}
+.reader img{
+ max-width:100%;
+ display:block;
+ margin:auto;
+}
+.stat{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+}
+.stat div{
+ background:#171d2c;
+ padding:15px;
+ border-radius:14px;
+ text-align:center;
+}
+.bottom{
+ position:fixed;
+ bottom:0;
+ left:0;
+ right:0;
+ background:#0c101a;
+ border-top:1px solid #202638;
+ display:flex;
+ justify-content:space-around;
+ padding:9px;
+ z-index:40;
+}
+.bottom button{
+ background:none;
+ color:#aeb6ca;
+ font-size:12px;
+}
+@media(max-width:700px){
+ .nav .search{display:none}
+ .hero h1{font-size:29px}
+ .grid{
+  grid-template-columns:repeat(2,minmax(0,1fr));
+ }
+ .stat{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="nav">
+
+<div class="logo">
+Manga<span>Verse</span> 🤖
+</div>
+
+<input
+ id="search"
+ class="search"
+ placeholder="ابحث عن مانغا..."
+>
+
+<div class="balance">
+🪙 <b id="coins">50</b>
+</div>
+
+<button class="btn" onclick="openModal('accountModal')">
+👤
+</button>
+
+</div>
+</header>
+
+<main class="container">
+
+<section class="hero">
+<div>
+
+<h1>
+عالم المانغا بين يديك 📚
+</h1>
+
+<p>
+اقرأ واكتشف الأعمال، استكشف قسم
+Public Domain، وانشر أعمالك الأصلية
+مع MangaVerse AI.
+</p>
+
+<div class="actions">
+
+<button
+ class="btn primary"
+ onclick="scrollToId('library')">
+📚 المكتبة
+</button>
+
+<button
+ class="btn"
+ onclick="scrollToId('publicDomain')">
+📜 Public Domain
+</button>
+
+<button
+ class="btn"
+ onclick="openModal('aiModal')">
+🤖 MangaVerse AI
+</button>
+
+</div>
+
+</div>
+</section>
+
+
+<!-- المكتبة -->
+
+<section id="library">
+
+<h2>
+🔥 المانغا المميزة
+</h2>
+
+<div id="mangaGrid" class="grid"></div>
+
+</section>
+
+
+<!-- PUBLIC DOMAIN -->
+
+<section id="publicDomain">
+
+<h2>
+📜 Public Domain
+</h2>
+
+<div class="panel public">
+
+<h3>
+أعمال متاحة ضمن الملكية العامة
+</h3>
+
+<p class="muted">
+هذا القسم مخصص للأعمال التي تم التحقق من
+كونها متاحة ضمن الملكية العامة أو بترخيص يسمح
+بإعادة استخدامها. تحقق من حالة الحقوق في بلدك
+قبل إعادة النشر.
+</p>
+
+<div id="publicGrid" class="grid"></div>
+
+</div>
+
+</section>
+
+
+<!-- AI -->
+
+<section>
+
+<h2>
+🤖 MangaVerse AI
+</h2>
+
+<div class="panel">
+
+<h3>
+مساعدك الذكي للمانغا
+</h3>
+
+<p class="muted">
+اكتب النوع الذي تبحث عنه.
+</p>
+
+<button
+ class="btn primary"
+ onclick="openModal('aiModal')">
+افتح المساعد 🤖
+</button>
+
+</div>
+
+</section>
+
+
+<!-- STATS -->
+
+<section>
+
+<h2>
+⭐ إنجازاتك
+</h2>
+
+<div class="stat">
+
+<div>
+📖
+<br>
+<b id="readCount">0</b>
+<br>
+<small>فصول مقروءة</small>
+</div>
+
+<div>
+❤️
+<br>
+<b id="favCount">0</b>
+<br>
+<small>المفضلة</small>
+</div>
+
+<div>
+🏆
+<br>
+<b id="level">1</b>
+<br>
+<small>المستوى</small>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CENTER -->
+
+<section>
+
+<h2>
+🛠️ مركز المنصة
+</h2>
+
+<div class="actions">
+
+<button
+ class="btn"
+ onclick="openModal('publishModal')">
+✍️ نشر مانغا
+</button>
+
+<button
+ class="btn"
+ onclick="showFavorites()">
+⭐ المفضلة
+</button>
+
+<button
+ class="btn"
+ onclick="dailyReward()">
+🎁 المكافأة اليومية
+</button>
+
+</div>
+
+</section>
+
+</main>
+
+
+<!-- NAV -->
+
+<div class="bottom">
+
+<button onclick="scrollToId('library')">
+🏠<br>الرئيسية
+</button>
+
+<button onclick="showFavorites()">
+⭐<br>المفضلة
+</button>
+
+<button onclick="scrollToId('publicDomain')">
+📜<br>Public
+</button>
+
+<button onclick="openModal('aiModal')">
+🤖<br>AI
+</button>
+
+<button onclick="openModal('accountModal')">
+👤<br>حساب
+</button>
+
+</div>
+
+
+<!-- ACCOUNT -->
+
+<div class="modal" id="accountModal">
+
+<div class="modal-box">
+
+<button
+ class="close"
+ onclick="closeModal('accountModal')">
+✕
+</button>
+
+<h2>
+👤 حساب MangaVerse
+</h2>
+
+<div class="panel">
+
+<h3 id="profileName">
+زائر MangaVerse
+</h3>
+
+<p>
+🪙 العملات:
+<b id="accountCoins">50</b>
+</p>
+
+<p>
+📖 الفصول:
+<b id="accountReads">0</b>
+</p>
+
+<p>
+⭐ المفضلة:
+<b id="accountFavs">0</b>
+</p>
+
+</div>
+
+<div class="form">
+
+<input
+ id="username"
+ placeholder="اسم المستخدم"
+>
+
+<button
+ class="btn primary"
+ onclick="login()">
+تسجيل الدخول / إنشاء حساب
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- AI -->
+
+<div class="modal" id="aiModal">
+
+<div class="modal-box">
+
+<button
+ class="close"
+ onclick="closeModal('aiModal')">
+✕
+</button>
+
+<h2>
+🤖 MangaVerse AI
+</h2>
+
+<div id="chat" class="chat">
+
+<div class="message ai-msg">
+🤖 أهلًا! أخبرني بنوع المانغا التي تبحث عنها.
+</div>
+
+</div>
+
+<div class="actions">
+
+<input
+ id="aiInput"
+ class="search"
+ placeholder="مثلاً: أكشن وفانتازيا..."
+>
+
+<button
+ class="btn primary"
+ onclick="askAI()">
+إرسال
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- PUBLISH -->
+
+<div class="modal" id="publishModal">
+
+<div class="modal-box">
+
+<button
+ class="close"
+ onclick="closeModal('publishModal')">
+✕
+</button>
+
+<h2>
+✍️ نشر مانغا
+</h2>
+
+<div class="form">
+
+<input
+ id="newTitle"
+ placeholder="اسم المانغا"
+>
+
+<textarea
+ id="newDesc"
+ placeholder="وصف المانغا">
+</textarea>
+
+<select id="newGenre">
+
+<option>أكشن</option>
+<option>فانتازيا</option>
+<option>مغامرة</option>
+<option>غموض</option>
+<option>كوميديا</option>
+
+</select>
+
+<input
+ id="newCover"
+ placeholder="رابط صورة الغلاف"
+>
+
+<button
+ class="btn primary"
+ onclick="publishManga()">
+🚀 نشر العمل
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- READER -->
+
+<div class="modal" id="readerModal">
+
+<div
+ class="modal-box"
+ style="padding:0;background:#000"
+>
+
+<button
+ class="close"
+ onclick="closeModal('readerModal')">
+✕
+</button>
+
+<div class="reader">
+
+<h2 id="readerTitle"></h2>
+
+<div id="readerPages"></div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================
+   MANGA
+===================== */
+
+const manga=[
+
+{
+ id:1,
+ title:"محارب الظلال",
+ genre:"أكشن",
+ desc:"محارب غامض يخفي قوة لا يعرفها أحد.",
+ cover:"https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500",
+ pages:[
+ "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=900",
+ "https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=900"
+ ]
+},
+
+{
+ id:2,
+ title:"عرش الفانتازيا",
+ genre:"فانتازيا",
+ desc:"عالم مليء بالسحر والممالك.",
+ cover:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=500",
+ pages:[
+ "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=900"
+ ]
+},
+
+{
+ id:3,
+ title:"صياد الأرواح",
+ genre:"مغامرة",
+ desc:"صياد يبدأ رحلة لكشف سر قوته.",
+ cover:"https://images.unsplash.com/photo-1534447677768-be436bb09401?w=500",
+ pages:[
+ "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=900"
+ ]
+}
+
+];
+
+
+/* =====================
+   PUBLIC DOMAIN
+===================== */
+
+const publicDomain=[
+
+{
+ id:"pd1",
+ title:"Hokusai Manga",
+ author:"Katsushika Hokusai",
+ year:"1814",
+ genre:"فن / مانغا مبكرة",
+
+ cover:"https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Hokusai_Manga_10th_volume.jpg/640px-Hokusai_Manga_10th_volume.jpg",
+
+ description:
+ "مجموعة رسومات شهيرة من أعمال كاتسوشيكا هوكوساي.",
+
+ source:
+ "Wikimedia Commons",
+
+ sourceURL:
+ "https://commons.wikimedia.org/wiki/Category:Hokusai_Manga"
+}
+
+];
+
+
+/* =====================
+   STATE
+===================== */
+
+let favorites=
+ JSON.parse(localStorage.getItem("favorites")||"[]");
+
+let coins=
+ Number(localStorage.getItem("coins")||50);
+
+let reads=
+ Number(localStorage.getItem("reads")||0);
+
+let user=
+ localStorage.getItem("user")||
+ "زائر MangaVerse";
+
+
+/* =====================
+   RENDER MANGA
+===================== */
+
+function render(list=manga){
+
+ const grid=
+ document.getElementById("mangaGrid");
+
+ grid.innerHTML="";
+
+ list.forEach(m=>{
+
+ const fav=
+ favorites.includes(m.id);
+
+ grid.innerHTML+=`
+
+ <article class="card">
+
+ <img
+ class="cover"
+ src="${m.cover}"
+ onerror="this.src='https://via.placeholder.com/500x700?text=Manga'"
+ >
+
+ <div class="card-body">
+
+ <h3>
+ ${escapeHTML(m.title)}
+ </h3>
+
+ <div class="muted">
+ ${escapeHTML(m.genre)}
+ </div>
+
+ <div class="tags">
+
+ <span class="tag">
+ ${escapeHTML(m.genre)}
+ </span>
+
+ <span class="tag">
+ 📖 فصول
+ </span>
+
+ </div>
+
+ <p class="muted">
+ ${escapeHTML(m.desc)}
+ </p>
+
+ <div class="actions">
+
+ <button
+ class="btn primary"
+ onclick="readManga(${m.id})">
+ 📖 قراءة
+ </button>
+
+ <button
+ class="btn"
+ onclick="toggleFavorite(${m.id})">
+ ${fav?"❤️":"🤍"}
+ </button>
+
+ </div>
+
+ </div>
+
+ </article>
+ `;
+ });
+
+}
+
+
+/* =====================
+   RENDER PUBLIC
+===================== */
+
+function renderPublic(){
+
+ const grid=
+ document.getElementById("publicGrid");
+
+ grid.innerHTML="";
+
+ publicDomain.forEach(m=>{
+
+ grid.innerHTML+=`
+
+ <article class="card">
+
+ <img
+ class="cover"
+ src="${m.cover}"
+ onerror="this.style.display='none'"
+ >
+
+ <div class="card-body">
+
+ <span class="public-badge">
+ ✓ Public Domain
+ </span>
+
+ <h3>
+ ${escapeHTML(m.title)}
+ </h3>
+
+ <p class="muted">
+ المؤلف: ${escapeHTML(m.author)}
+ </p>
+
+ <p class="muted">
+ السنة: ${escapeHTML(m.year)}
+ </p>
+
+ <p class="muted">
+ ${escapeHTML(m.description)}
+ </p>
+
+ <a
+ href="${m.sourceURL}"
+ target="_blank"
+ rel="noopener"
+ style="color:#a78bfa">
+ 🔗 المصدر
+ </a>
+
+ </div>
+
+ </article>
+
+ `;
+
+ });
+
+}
+
+
+/* =====================
+   READER
+===================== */
+
+function readManga(id){
+
+ const m=
+ manga.find(x=>x.id===id);
+
+ if(!m)return;
+
+ reads++;
+
+ localStorage.setItem(
+ "reads",
+ reads
+ );
+
+ updateStats();
+
+ document.getElementById(
+ "readerTitle"
+ ).textContent=
+ "📖 "+m.title;
+
+ document.getElementById(
+ "readerPages"
+ ).innerHTML=
+
+ m.pages.map((p,i)=>`
+
+ <div>
+
+ <p style="color:#aaa">
+ الفصل 1 — الصفحة ${i+1}
+ </p>
+
+ <img
+ src="${p}"
+ loading="lazy"
+ >
+
+ </div>
+
+ `).join("");
+
+ openModal("readerModal");
+
+}
+
+
+/* =====================
+   FAVORITES
+===================== */
+
+function toggleFavorite(id){
+
+ if(favorites.includes(id)){
+
+ favorites=
+ favorites.filter(x=>x!==id);
+
+ }else{
+
+ favorites.push(id);
+
+ }
+
+ localStorage.setItem(
+ "favorites",
+ JSON.stringify(favorites)
+ );
+
+ render();
+
+ updateStats();
+
+}
+
+
+function showFavorites(){
+
+ render(
+ manga.filter(
+ x=>favorites.includes(x.id)
+ )
+ );
+
+ scrollToId("library");
+
+}
+
+
+/* =====================
+   SEARCH
+===================== */
+
+document
+.getElementById("search")
+.addEventListener("input",e=>{
+
+ const q=
+ e.target.value
+ .trim()
+ .toLowerCase();
+
+ if(!q){
+
+ render();
+
+ return;
+
+ }
+
+ render(
+ manga.filter(m=>
+ m.title.toLowerCase().includes(q)||
+ m.genre.toLowerCase().includes(q)||
+ m.desc.toLowerCase().includes(q)
+ )
+ );
+
+});
+
+
+/* =====================
+   PUBLISH
+===================== */
+
+function publishManga(){
+
+ const title=
+ document.getElementById("newTitle")
+ .value.trim();
+
+ const desc=
+ document.getElementById("newDesc")
+ .value.trim();
+
+ const genre=
+ document.getElementById("newGenre")
+ .value;
+
+ const cover=
+ document.getElementById("newCover")
+ .value.trim();
+
+ if(!title){
+
+ alert("اكتب اسم المانغا.");
+
+ return;
+
+ }
+
+ manga.unshift({
+
+ id:Date.now(),
+
+ title:title,
+
+ genre:genre,
+
+ desc:
+ desc||"عمل جديد على MangaVerse",
+
+ cover:
+ cover||
+ "https://via.placeholder.com/500x700?text=Manga",
+
+ pages:[]
+
+ });
+
+ document
+ .getElementById("newTitle")
+ .value="";
+
+ document
+ .getElementById("newDesc")
+ .value="";
+
+ document
+ .getElementById("newCover")
+ .value="";
+
+ closeModal("publishModal");
+
+ render();
+
+ alert("🚀 تم نشر العمل");
+
+}
+
+
+/* =====================
+   LOGIN
+===================== */
+
+function login(){
+
+ const name=
+ document.getElementById("username")
+ .value.trim();
+
+ if(!name){
+
+ alert("اكتب اسم المستخدم.");
+
+ return;
+
+ }
+
+ user=name;
+
+ localStorage.setItem(
+ "user",
+ user
+ );
+
+ updateStats();
+
+ alert(
+ "تم تسجيل الدخول بنجاح!"
+ );
+
+}
+
+
+/* =====================
+   AI
+===================== */
+
+function askAI(){
+
+ const input=
+ document.getElementById("aiInput");
+
+ const text=
+ input.value.trim();
+
+ if(!text)return;
+
+ const chat=
+ document.getElementById("chat");
+
+ chat.innerHTML+=`
+
+ <div class="message user-msg">
+ ${escapeHTML(text)}
+ </div>
+
+ `;
+
+ const q=
+ text.toLowerCase();
+
+ let result="";
+
+ if(
+ q.includes("أكشن")||
+ q.includes("قتال")
+ ){
+
+ result=
+ "🔥 جرّب محارب الظلال للأكشن والقتال.";
+
+ }
+
+ else if(
+ q.includes("فانتازيا")||
+ q.includes("سحر")
+ ){
+
+ result=
+ "✨ عرش الفانتازيا مناسب لعشاق السحر والممالك.";
+
+ }
+
+ else if(
+ q.includes("قديم")||
+ q.includes("public")||
+ q.includes("تراث")
+ ){
+
+ result=
+ "📜 يمكنك استكشاف قسم Public Domain داخل MangaVerse.";
+
+ }
+
+ else{
+
+ result=
+ "🤖 لدي هذه الأعمال حاليًا:<br><br>"+
+ manga
+ .slice(0,3)
+ .map(x=>"📚 "+escapeHTML(x.title))
+ .join("<br>");
+
+ }
+
+ setTimeout(()=>{
+
+ chat.innerHTML+=`
+
+ <div class="message ai-msg">
+ ${result}
+ </div>
+
+ `;
+
+ chat.scrollTop=
+ chat.scrollHeight;
+
+ },300);
+
+ input.value="";
+
+}
+
+
+/* =====================
+   DAILY
+===================== */
+
+function dailyReward(){
+
+ const today=
+ new Date().toDateString();
+
+ if(
+ localStorage.getItem("dailyReward")
+ ===today
+ ){
+
+ alert("🎁 أخذت مكافأتك اليوم!");
+
+ return;
+
+ }
+
+ coins+=20;
+
+ localStorage.setItem(
+ "coins",
+ coins
+ );
+
+ localStorage.setItem(
+ "dailyReward",
+ today
+ );
+
+ updateStats();
+
+ alert(
+ "🎉 حصلت على 20 🪙!"
+ );
+
+}
+
+
+/* =====================
+   UI
+===================== */
+
+function openModal(id){
+
+ document
+ .getElementById(id)
+ .classList.add("active");
+
+}
+
+
+function closeModal(id){
+
+ document
+ .getElementById(id)
+ .classList.remove("active");
+
+}
+
+
+function scrollToId(id){
+
+ document
+ .getElementById(id)
+ .scrollIntoView({
+  behavior:"smooth"
+ });
+
+}
+
+
+/* =====================
+   STATS
+===================== */
+
+function updateStats(){
+
+ document.getElementById(
+ "coins"
+ ).textContent=coins;
+
+ document.getElementById(
+ "accountCoins"
+ ).textContent=coins;
+
+ document.getElementById(
+ "readCount"
+ ).textContent=reads;
+
+ document.getElementById(
+ "accountReads"
+ ).textContent=reads;
+
+ document.getElementById(
+ "favCount"
+ ).textContent=
+ favorites.length;
+
+ document.getElementById(
+ "accountFavs"
+ ).textContent=
+ favorites.length;
+
+ document.getElementById(
+ "level"
+ ).textContent=
+ Math.max(
+ 1,
+ Math.floor(reads/5)+1
+ );
+
+ document.getElementById(
+ "profileName"
+ ).textContent=
+ "👤 "+user;
+
+}
+
+
+/* =====================
+   SECURITY
+===================== */
+
+function escapeHTML(str){
+
+ return String(str)
+ .replaceAll("&","&amp;")
+ .replaceAll("<","&lt;")
+ .replaceAll(">","&gt;")
+ .replaceAll('"',"&quot;")
+ .replaceAll("'","&#039;");
+
+}
+
+
+/* =====================
+   START
+===================== */
+
+render();
+
+renderPublic();
+
+updateStats();
+
+</script>
+
+</body>
+</html>
