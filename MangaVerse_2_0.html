@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#080910">
+<title>MangaVerse 2.0</title>
+<style>
+:root{--bg:#080910;--panel:#111421;--panel2:#171a29;--panel3:#20243a;--text:#f7f5ff;--muted:#969bb0;--p:#8b5cf6;--p2:#6366f1;--pink:#ec4899;--green:#34d399;--yellow:#fbbf24;--border:rgba(255,255,255,.08);--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:radial-gradient(circle at 80% -10%,#3b1b7040,transparent 32%),var(--bg);color:var(--text);font-family:Tahoma,"Segoe UI",Arial,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer;border:0}a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:8px}::-webkit-scrollbar-thumb{background:#332b50;border-radius:20px}
+.header{position:sticky;top:0;z-index:1000;height:72px;padding:0 4%;display:flex;align-items:center;gap:18px;background:#080910df;backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:20px;white-space:nowrap}.logoIcon{width:40px;height:40px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,var(--p),var(--p2));box-shadow:0 0 25px #8b5cf655}
+.search{position:relative;flex:1;max-width:480px;margin:auto}.search input{width:100%;height:42px;border-radius:12px;border:1px solid var(--border);background:#ffffff08;color:white;padding:0 43px 0 14px;outline:0}.search input:focus{border-color:#8b5cf688;box-shadow:0 0 0 4px #8b5cf611}.search span{position:absolute;right:14px;top:10px;color:var(--muted)}
+.nav{display:flex;gap:15px;white-space:nowrap}.nav button{background:none;color:#aeb2c2;font-size:12px}.nav button:hover{color:white}
+.headRight{display:flex;align-items:center;gap:8px}.coin{padding:9px 11px;border-radius:10px;background:#fbbf2410;border:1px solid #fbbf2422;color:#fcd34d;font-size:12px}.publish,.primary{color:#fff;background:linear-gradient(135deg,var(--p),var(--p2));border-radius:11px;padding:11px 15px;font-weight:700}.avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#312e81,#a855f7);color:white;font-weight:bold}.mobile{display:none;background:var(--panel2);color:white;border-radius:10px;width:40px;height:40px}
+.container{width:min(1450px,92%);margin:auto}.main{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:24px;padding:25px 0 50px}
+.hero{min-height:340px;border:1px solid var(--border);border-radius:25px;position:relative;overflow:hidden;background:linear-gradient(110deg,#0c0d15f5,#21133ecc),radial-gradient(circle at 25% 50%,#8b5cf655,transparent 30%);box-shadow:0 20px 70px #0007}.hero:before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;left:4%;top:-110px;background:radial-gradient(circle,#c4b5fd77,transparent 65%);filter:blur(5px)}.heroArt{position:absolute;left:7%;bottom:0;width:300px;height:310px;opacity:.9}.head{position:absolute;left:90px;top:35px;width:120px;height:135px;border-radius:50%;background:linear-gradient(145deg,#755580,#16131e);box-shadow:0 0 40px #a78bfa55}.bodyArt{position:absolute;left:40px;bottom:0;width:220px;height:205px;background:linear-gradient(145deg,#3b2460,#080910);clip-path:polygon(20% 0,80% 0,100% 100%,0 100%)}.orb{position:absolute;left:25px;top:30px;width:260px;height:260px;border:2px solid #c4b5fd44;border-radius:50%;box-shadow:0 0 60px #8b5cf655;animation:spin 15s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.heroContent{position:relative;z-index:2;padding:55px;max-width:650px}.label{display:inline-block;color:#c4b5fd;background:#8b5cf616;border:1px solid #8b5cf644;border-radius:20px;padding:7px 12px;font-size:11px;margin-bottom:15px}.hero h1{font-size:clamp(30px,4vw,52px);line-height:1.2;margin-bottom:14px}.hero h1 span{color:#a78bfa}.hero p{color:#b1b5c5;line-height:1.9;font-size:14px}.actions{display:flex;gap:10px;margin-top:23px}.secondary{background:#ffffff09;color:white;border:1px solid var(--border);border-radius:11px;padding:11px 17px}
+.section{margin-top:30px}.sectionHead{display:flex;justify-content:space-between;align-items:end;margin-bottom:15px}.sectionHead h2{font-size:21px}.sectionHead p{font-size:11px;color:var(--muted);margin-top:5px}.view{background:none;color:#a78bfa;font-size:12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}.card{background:linear-gradient(145deg,#111421,#0d0f17);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:.25s}.card:hover{transform:translateY(-5px);border-color:#8b5cf666;box-shadow:0 20px 45px #0006}.cover{height:250px;position:relative;overflow:hidden;background:#171827}.cover svg{width:100%;height:100%;transition:.5s}.card:hover .cover svg{transform:scale(1.05)}.rating{position:absolute;right:9px;top:9px;background:#05050acc;padding:5px 7px;border-radius:7px;font-size:10px}.fav{position:absolute;left:9px;top:9px;width:32px;height:32px;border-radius:8px;background:#05050aaa;color:white}.fav.active{color:#f472b6}.info{padding:12px}.info h3{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tags{display:flex;flex-wrap:wrap;gap:5px;margin:8px 0}.tag{background:#8b5cf612;color:#c4b5fd;border:1px solid #8b5cf61d;border-radius:6px;padding:4px 7px;font-size:9px}.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}.open{width:100%;margin-top:10px;background:var(--panel3);color:white;border-radius:8px;padding:9px;font-size:11px}.open:hover{background:var(--p)}
+.sidebar{display:flex;flex-direction:column;gap:16px}.side{background:linear-gradient(145deg,#111421,#0d0f18);border:1px solid var(--border);border-radius:17px;padding:17px}.sideTitle{display:flex;justify-content:space-between;margin-bottom:13px}.sideTitle h3{font-size:14px}.sideTitle span{color:var(--muted);font-size:10px}.detailCover{height:180px;border-radius:12px;overflow:hidden;margin-bottom:13px}.detailCover svg{width:100%;height:100%}.author,.synopsis{color:var(--muted);font-size:11px;line-height:1.8}.ratingRow{display:flex;gap:8px;align-items:center;margin:11px 0}.stars{color:#fbbf24}.status{background:#34d39918;color:#6ee7b7;padding:4px 7px;border-radius:6px;font-size:9px}.detailActions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:12px}.detailActions button{background:var(--panel3);color:white;border-radius:8px;padding:9px;font-size:11px}.detailActions button:first-child{background:linear-gradient(135deg,var(--p),var(--p2))}
+.chapters{display:flex;flex-direction:column;gap:6px;max-height:210px;overflow:auto}.chapter{display:flex;justify-content:space-between;align-items:center;background:#ffffff06;border:1px solid transparent;color:white;border-radius:8px;padding:9px;font-size:10px}.chapter:hover{border-color:#8b5cf644}.lock{color:#777}.unlock{color:#a78bfa}
+.miniReader{background:#05060b;border:1px solid var(--border);border-radius:11px;overflow:hidden}.miniTop,.miniControls{padding:9px;display:flex;justify-content:space-between;align-items:center;font-size:10px}.miniPage{height:250px}.miniPage svg{width:100%;height:100%}.miniControls button{background:var(--panel3);color:white;border-radius:7px;width:30px;height:28px}
+.profile{display:flex;gap:11px;align-items:center}.profileAvatar{width:47px;height:47px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#4f46e5,#c026d3);font-weight:bold}.profile small{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0}.stat{text-align:center;background:#ffffff06;padding:9px;border-radius:8px}.stat strong{display:block}.stat span{font-size:8px;color:var(--muted)}.wallet{display:flex;justify-content:space-between;align-items:center;padding:11px;border-radius:9px;background:#fbbf240d;border:1px solid #fbbf2417}.wallet b{color:#fcd34d}.recent{display:flex;flex-direction:column;gap:9px}.recentItem{display:flex;gap:9px;align-items:center}.miniCover{width:40px;height:50px;border-radius:6px;overflow:hidden}.miniCover svg{width:100%;height:100%}.recentItem small{display:block;color:var(--muted);margin-top:3px}
+.community{margin-top:30px}.rooms{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.room{background:linear-gradient(145deg,#111421,#0d0f18);border:1px solid var(--border);padding:18px;border-radius:15px}.roomIcon{font-size:25px}.room h3{margin:8px 0 5px;font-size:15px}.room p{color:var(--muted);font-size:10px;line-height:1.7}.room button{margin-top:12px;width:100%;background:var(--panel3);color:white;border-radius:9px;padding:9px;font-size:11px}.room button:hover{background:var(--p)}
+.modal{position:fixed;inset:0;background:#000b;z-index:5000;display:none;align-items:center;justify-content:center;padding:18px}.modal.open{display:flex}.box{width:min(500px,100%);background:#111421;border:1px solid var(--border);border-radius:20px;padding:22px;box-shadow:0 30px 100px #000}.boxHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}.close{background:#ffffff0a;color:white;border-radius:8px;width:34px;height:34px}.field{margin-bottom:11px}.field label{display:block;color:#bfc3d0;font-size:11px;margin-bottom:6px}.field input,.messageInput{width:100%;height:42px;background:#ffffff07;border:1px solid var(--border);border-radius:9px;color:white;padding:0 11px;outline:0}.field input:focus,.messageInput:focus{border-color:#8b5cf666}.modalActions{display:flex;gap:8px;margin-top:15px}.modalActions button{flex:1;padding:10px;border-radius:9px}.roomMessages{height:350px;overflow:auto;background:#090a11;border-radius:11px;padding:12px;margin:12px 0}.msg{margin-bottom:10px}.msg b{font-size:11px;color:#c4b5fd}.msg p{margin-top:3px;background:#ffffff07;padding:8px;border-radius:8px;color:#ddd;font-size:11px}.send{display:flex;gap:7px}.messageInput{height:42px}.send button{width:80px;background:linear-gradient(135deg,var(--p),var(--p2));color:white;border-radius:9px}
+.reader{position:fixed;inset:0;background:#030409;z-index:7000;display:none;flex-direction:column}.reader.open{display:flex}.readerHeader{height:62px;flex-shrink:0;background:#0b0d15;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 14px}.readerHeader h2{font-size:14px}.readerHeader small{display:block;color:var(--muted);font-size:9px;margin-top:4px}.tools{display:flex;gap:6px}.tools button{height:36px;min-width:36px;border-radius:8px;background:var(--panel2);color:white;border:1px solid var(--border)}.readerBody{flex:1;overflow:auto;padding:18px 8px 75px;text-align:center}.readerPage{width:min(850px,100%);margin:0 auto 13px;background:white;border-radius:3px;overflow:hidden}.readerPage svg{display:block;width:100%;height:auto}.readerFooter{position:absolute;bottom:0;left:0;right:0;height:57px;background:#090a10ed;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:9px}.readerFooter button{background:var(--panel2);color:white;border-radius:8px;padding:8px 13px}.progress{position:absolute;bottom:0;right:0;height:3px;background:linear-gradient(90deg,var(--p),var(--pink));width:0}
+.toast{position:fixed;z-index:9000;bottom:22px;left:50%;transform:translate(-50%,80px);opacity:0;background:#202335;border:1px solid var(--border);padding:11px 16px;border-radius:10px;transition:.25s;font-size:12px}.toast.show{transform:translate(-50%,0);opacity:1}
+.footer{border-top:1px solid var(--border);padding:30px 0;color:var(--muted);font-size:10px;text-align:center;margin-top:20px}
+@media(max-width:1100px){.nav{display:none}.main{grid-template-columns:1fr}.grid{grid-template-columns:repeat(3,1fr)}.mobile{display:block}}
+@media(max-width:700px){.header{height:64px;padding:0 3%;gap:8px}.logo{font-size:17px}.logoIcon{width:35px;height:35px}.headRight .publish{display:none}.headRight .coin{display:block}.avatar{width:36px;height:36px}.search{position:absolute;top:72px;left:3%;right:3%;max-width:none}.header{margin-bottom:60px}.hero{min-height:470px}.heroContent{padding:35px 22px}.heroArt{opacity:.25;left:-35px}.actions{flex-direction:column}.grid{grid-template-columns:repeat(2,1fr);gap:10px}.cover{height:210px}.rooms{grid-template-columns:1fr}.sidebar{gap:12px}.footer{padding-bottom:25px}}
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr}.cover{height:185px}.coin{font-size:10px;padding:8px}.hero h1{font-size:30px}}
+</style>
+</head>
+<body>
+
+<header class="header">
+<button class="mobile" onclick="toast('استخدم أزرار الأقسام للتنقل')">☰</button>
+<a class="logo" href="#home"><span class="logoIcon">✦</span>MangaVerse</a>
+<div class="search"><span>⌕</span><input id="search" placeholder="ابحث عن مانغا، كاتب أو تصنيف..." oninput="searchManga()"></div>
+<nav class="nav">
+<button onclick="go('home')">الرئيسية</button>
+<button onclick="go('categories')">التصنيفات</button>
+<button onclick="go('popular')">الأكثر قراءة</button>
+<button onclick="showFavs()">المفضلة</button>
+<button onclick="go('community')">المجتمع</button>
+</nav>
+<div class="headRight">
+<div class="coin" id="coins">0 🪙</div>
+<button class="publish" onclick="openAccount()">حسابي</button>
+<button class="avatar" id="headAvatar" onclick="openAccount()">؟</button>
+</div>
+</header>
+
+<main class="container">
+<div class="main">
+
+<div>
+<section class="hero" id="home">
+<div class="orb"></div><div class="heroArt"><div class="head"></div><div class="bodyArt"></div></div>
+<div class="heroContent">
+<span class="label">✦ MangaVerse 2.0</span>
+<h1>اكتشف عوالم جديدة <span>من المانغا</span></h1>
+<p>منصة عربية تجريبية لعشاق القصص المصورة، مع أعمال أصلية، قارئ مدمج، مفضلة، حسابات محلية ومجتمع نقاش.</p>
+<div class="actions"><button class="primary" onclick="openReader(0,0)">ابدأ القراءة ←</button><button class="secondary" onclick="go('popular')">استكشف الأعمال</button></div>
+</div>
+</section>
+
+<section class="section" id="popular">
+<div class="sectionHead"><div><h2>🔥 أشهر المانغا</h2><p>أعمال MangaVerse الأصلية</p></div><button class="view" onclick="render()">عرض الكل ←</button></div>
+<div class="grid" id="popularGrid"></div>
+</section>
+
+<section class="section" id="categories">
+<div class="sectionHead"><div><h2>التصنيفات</h2><p>اختر نوع القصة</p></div></div>
+<div class="tags">
+<button class="tag" onclick="filterGenre('أكشن')">⚔ أكشن</button><button class="tag" onclick="filterGenre('فانتازيا')">✨ فانتازيا</button><button class="tag" onclick="filterGenre('غموض')">🔮 غموض</button><button class="tag" onclick="filterGenre('مغامرة')">🗺 مغامرة</button><button class="tag" onclick="filterGenre('دراما')">🎭 دراما</button><button class="tag" onclick="filterGenre('رعب')">🌑 رعب</button>
+</div>
+</section>
+
+<section class="section">
+<div class="sectionHead"><div><h2>📚 جميع المانغا</h2><p id="count">10 أعمال</p></div><button class="view" onclick="resetSearch()">إعادة ضبط</button></div>
+<div class="grid" id="allGrid"></div>
+</section>
+
+<section class="community" id="community">
+<div class="sectionHead"><div><h2>💬 مجتمع MangaVerse</h2><p>ادخل إلى غرفة وشارك رأيك</p></div></div>
+<div class="rooms">
+<div class="room"><div class="roomIcon">⚔️</div><h3>نقاش الفصول</h3><p>ناقش أحداث الفصول والشخصيات والنظريات مع قراء MangaVerse.</p><button onclick="openRoom('نقاش الفصول','⚔️')">دخول الغرفة</button></div>
+<div class="room"><div class="roomIcon">✍️</div><h3>غرفة المبدعين</h3><p>مكان لمناقشة الكتابة والرسم وصناعة القصص الأصلية.</p><button onclick="openRoom('غرفة المبدعين','✍️')">دخول الغرفة</button></div>
+<div class="room"><div class="roomIcon">🌐</div><h3>العامة</h3><p>تحدث عن المانغا والأنمي وكل ما يتعلق بعالم القصص المصورة.</p><button onclick="openRoom('العامة','🌐')">دخول الغرفة</button></div>
+</div>
+</section>
+</div>
+
+<aside class="sidebar">
+<div class="side">
+<div class="sideTitle"><h3>العمل المميز</h3><span>أصلي</span></div>
+<div class="detailCover" id="detailCover"></div>
+<h2 style="font-size:19px">فيدورا — عرش الرماد</h2><p class="author">بقلم: MangaVerse Studio</p>
+<div class="ratingRow"><span class="stars">★★★★★</span><b>9.4</b><span class="status">مستمرة</span></div>
+<p class="synopsis">يستيقظ شاب في عالم تحكمه قوى غامضة، ليكتشف أن داخله إرثاً قديماً قد يغيّر مصير الممالك.</p>
+<div class="detailActions"><button onclick="openReader(0,0)">▶ قراءة</button><button onclick="toggleFav(0)">♡ مفضلة</button></div>
+</div>
+
+<div class="side"><div class="sideTitle"><h3>الفصول</h3><span>12 فصل</span></div><div class="chapters" id="chapters"></div></div>
+
+<div class="side"><div class="sideTitle"><h3>قارئ سريع</h3><span id="miniCount">1 / 5</span></div><div class="miniReader"><div class="miniTop"><span>فيدورا</span><span>●</span></div><div class="miniPage" id="miniPage"></div><div class="miniControls"><button onclick="miniPrev()">‹</button><span id="miniNum">1 / 5</span><button onclick="miniNext()">›</button><button onclick="openReader(0,0)">⛶</button></div></div></div>
+
+<div class="side" id="accountCard"><div class="sideTitle"><h3>حسابي</h3><span id="level">زائر</span></div><div class="profile"><div class="profileAvatar" id="profileAvatar">؟</div><div><b id="profileName">زائر MangaVerse</b><small id="profileEmail">أنشئ حسابك للبدء</small></div></div><div class="stats"><div class="stat"><strong>10</strong><span>أعمال</span></div><div class="stat"><strong id="favStat">0</strong><span>مفضلة</span></div><div class="stat"><strong id="roomStat">0</strong><span>رسائل</span></div></div><div class="wallet"><span>المحفظة</span><b id="walletCoins">0 🪙</b></div><button class="primary" style="width:100%;margin-top:10px" onclick="openAccount()" id="accountButton">إنشاء حساب +50 🪙</button></div>
+
+<div class="side"><div class="sideTitle"><h3>آخر الأعمال</h3><span>محلي</span></div><div class="recent" id="recent"></div></div>
+</aside>
+</div>
+</main>
+
+<footer class="footer">© 2026 MangaVerse — جميع الأعمال المعروضة هنا أصلية وتجريبية للمشروع.</footer>
+
+<!-- ACCOUNT MODAL -->
+<div class="modal" id="accountModal"><div class="box">
+<div class="boxHead"><h2 id="accountTitle">إنشاء حساب</h2><button class="close" onclick="closeModal('accountModal')">✕</button></div>
+<div id="accountForm">
+<div class="field"><label>اسم المستخدم</label><input id="username" maxlength="24" placeholder="مثلاً: MangaFan"></div>
+<div class="field"><label>البريد الإلكتروني</label><input id="email" type="email" placeholder="you@example.com"></div>
+<p style="color:var(--muted);font-size:10px;line-height:1.7">يتم حفظ الحساب محلياً في هذا المتصفح. التسجيل يمنحك 50 🪙 مرة واحدة.</p>
+<div class="modalActions"><button class="primary" onclick="register()">إنشاء الحساب +50 🪙</button><button style="background:var(--panel3);color:white;border-radius:9px" onclick="closeModal('accountModal')">إلغاء</button></div>
+</div>
+<div id="loggedForm" style="display:none"><p style="color:var(--muted);font-size:12px">أنت مسجل الدخول باسم <b id="loggedName"></b>.</p><div class="modalActions"><button class="primary" onclick="closeModal('accountModal')">إغلاق</button><button style="background:#fb718522;color:#fda4af;border-radius:9px" onclick="logout()">تسجيل الخروج</button></div></div>
+</div></div>
+
+<!-- ROOM MODAL -->
+<div class="modal" id="roomModal"><div class="box">
+<div class="boxHead"><h2 id="roomTitle">💬 الغرفة</h2><button class="close" onclick="closeModal('roomModal')">✕</button></div>
+<div class="roomMessages" id="messages"></div>
+<div class="send"><input class="messageInput" id="message" placeholder="اكتب رسالتك..." onkeydown="if(event.key==='Enter')sendMessage()"><button onclick="sendMessage()">إرسال</button></div>
+</div></div>
+
+<!-- READER -->
+<div class="reader" id="reader">
+<div class="readerHeader"><div><h2 id="readerTitle"></h2><small id="readerChapter"></small></div><div class="tools"><button onclick="zoom(-.1)">−</button><button onclick="resetZoom()">100%</button><button onclick="zoom(.1)">+</button><button onclick="fullScreen()">⛶</button><button onclick="closeReader()">✕</button></div></div>
+<div class="readerBody" id="readerBody"></div><div class="readerFooter"><button onclick="prevChapter()">← السابق</button><span id="readerCounter">الفصل 1</span><button onclick="nextChapter()">التالي →</button></div><div class="progress" id="progress"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const mangas=[
+{id:0,title:"فيدورا — عرش الرماد",genres:["فانتازيا","أكشن"],rating:"9.4",chapters:12,views:"128K",symbol:"♛",c1:"#29145f",c2:"#7c3aed",pages:5},
+{id:1,title:"مدينة الظلال",genres:["غموض","رعب"],rating:"9.1",chapters:18,views:"96K",symbol:"☾",c1:"#111827",c2:"#4f46e5",pages:5},
+{id:2,title:"Moon Blade",genres:["مغامرة","أكشن"],rating:"8.9",chapters:24,views:"82K",symbol:"☽",c1:"#172554",c2:"#0891b2",pages:5},
+{id:3,title:"Demon Legacy",genres:["فانتازيا","أكشن"],rating:"8.8",chapters:31,views:"77K",symbol:"◇",c1:"#3b1028",c2:"#db2777",pages:5},
+{id:4,title:"آخر محارب",genres:["أكشن","دراما"],rating:"8.6",chapters:16,views:"64K",symbol:"⚔",c1:"#172016",c2:"#059669",pages:5},
+{id:5,title:"بوابة النجوم",genres:["مغامرة","فانتازيا"],rating:"8.5",chapters:21,views:"58K",symbol:"✦",c1:"#21143d",c2:"#9333ea",pages:5},
+{id:6,title:"سيف الكسوف",genres:["أكشن","غموض"],rating:"8.4",chapters:14,views:"51K",symbol:"☼",c1:"#3b2412",c2:"#ea580c",pages:5},
+{id:7,title:"ملك الأرواح",genres:["فانتازيا","دراما"],rating:"8.3",chapters:19,views:"48K",symbol:"♜",c1:"#172033",c2:"#2563eb",pages:5},
+{id:8,title:"لعنة القمر الأسود",genres:["رعب","غموض"],rating:"8.2",chapters:11,views:"43K",symbol:"◐",c1:"#18181b",c2:"#7e22ce",pages:5},
+{id:9,title:"حارس العالم الأخير",genres:["مغامرة","دراما"],rating:"8.1",chapters:15,views:"39K",symbol:"✧",c1:"#13251f",c2:"#0f766e",pages:5}
+];
+
+let favs=JSON.parse(localStorage.getItem("mv_favs")||"[]"), current=0, chapter=0, mini=1, zoomLevel=1, room="", toastTimer;
+let user=JSON.parse(localStorage.getItem("mv_user")||"null");
+let roomData=JSON.parse(localStorage.getItem("mv_rooms")||"{}");
+
+function cover(m){
+return `<svg viewBox="0 0 500 700" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="g${m.id}" x2="1" y2="1"><stop stop-color="${m.c1}"/><stop offset="1" stop-color="${m.c2}"/></linearGradient></defs><rect width="500" height="700" fill="url(#g${m.id})"/><circle cx="390" cy="140" r="150" fill="#fff" opacity=".08"/><path d="M0 560Q160 430 290 550T500 480V700H0Z" fill="#000" opacity=".55"/><circle cx="250" cy="330" r="100" fill="#070711" opacity=".75"/><path d="M110 700Q150 420 250 390Q350 420 390 700" fill="#080810"/><text x="250" y="100" text-anchor="middle" fill="#fff" font-size="27" font-weight="bold" font-family="Arial">MANGAVERSE</text><text x="250" y="620" text-anchor="middle" fill="#fff" font-size="62" font-family="Arial">${m.symbol}</text><text x="250" y="665" text-anchor="middle" fill="#ddd" font-size="16" font-family="Arial">ORIGINAL STORY</text></svg>`;
+}
+function pageArt(m,p){
+const texts=["استيقظ العالم على ضوء غامض.","كانت البوابة تنتظر شخصاً واحداً.","اقترب البطل من الطاقة المجهولة.","لم يكن يعرف أن الرحلة بدأت.","وفي الأفق ظهر عالم جديد."];
+return `<svg viewBox="0 0 900 1250" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="p${p}" x2="1" y2="1"><stop stop-color="${m.c1}"/><stop offset="1" stop-color="${m.c2}"/></linearGradient></defs><rect width="900" height="1250" fill="#fff"/><rect x="28" y="28" width="844" height="1194" rx="8" fill="url(#p${p})"/><circle cx="710" cy="180" r="115" fill="#fff" opacity=".13"/><path d="M28 820Q180 650 310 820T600 790T872 700V1222H28Z" fill="#020207" opacity=".55"/><circle cx="450" cy="610" r="190" fill="none" stroke="#c4b5fd55" stroke-width="5"/><circle cx="450" cy="610" r="125" fill="none" stroke="#f0abfc44" stroke-width="3"/><circle cx="450" cy="500" r="82" fill="#11111a"/><path d="M320 810Q450 580 580 810L640 1120H260Z" fill="#08080f"/><path d="M375 495Q450 445 525 495" stroke="#a78bfa" stroke-width="10" fill="none"/><circle cx="420" cy="505" r="8" fill="#fff"/><circle cx="480" cy="505" r="8" fill="#fff"/><rect x="85" y="100" width="730" height="145" rx="20" fill="#fff" opacity=".94"/><text x="450" y="160" text-anchor="middle" font-size="24" font-family="Arial" fill="#17131f">${texts[(p-1)%5]}</text><text x="450" y="205" text-anchor="middle" font-size="17" font-family="Arial" fill="#666">MangaVerse Original Demo Page</text><text x="450" y="1150" text-anchor="middle" font-size="25" font-family="Arial" fill="#fff" font-weight="bold">${m.title}</text><text x="450" y="1190" text-anchor="middle" font-size="18" font-family="Arial" fill="#ddd">الفصل ${chapter+1} — الصفحة ${p}/${m.pages}</text></svg>`;
+}
+function card(m){
+let f=favs.includes(m.id);
+return `<article class="card"><div class="cover">${cover(m)}<span class="rating">⭐ ${m.rating}</span><button class="fav ${f?'active':''}" onclick="toggleFav(${m.id});event.stopPropagation()">${f?'♥':'♡'}</button></div><div class="info"><h3>${m.title}</h3><div class="tags">${m.genres.map(x=>`<span class="tag">${x}</span>`).join("")}</div><div class="meta"><span>📖 ${m.chapters} فصل</span><span>👁 ${m.views}</span></div><button class="open" onclick="openReader(${m.id},0)">قراءة الآن</button></div></article>`;
+}
+function render(list=mangas){document.getElementById("popularGrid").innerHTML=list.slice(0,4).map(card).join("");document.getElementById("allGrid").innerHTML=list.map(card).join("");document.getElementById("count").textContent=list.length+" أعمال";updateProfile();}
+function searchManga(){let q=document.getElementById("search").value.toLowerCase().trim();render(mangas.filter(m=>m.title.toLowerCase().includes(q)||m.genres.some(g=>g.includes(q))));}
+function filterGenre(g){render(mangas.filter(m=>m.genres.includes(g)));go("popular")}
+function resetSearch(){document.getElementById("search").value="";render()}
+function toggleFav(id){favs=favs.includes(id)?favs.filter(x=>x!==id):[...favs,id];localStorage.setItem("mv_favs",JSON.stringify(favs));toast(favs.includes(id)?"أضيفت إلى المفضلة ❤️":"أزيلت من المفضلة");render()}
+function showFavs(){let x=mangas.filter(m=>favs.includes(m.id));render(x);go("popular");if(!x.length)toast("لا توجد أعمال في المفضلة بعد")}
+function go(id){document.getElementById(id)?.scrollIntoView({behavior:"smooth"})}
+function updateProfile(){document.getElementById("favStat").textContent=favs.length;document.getElementById("coins").textContent=(user?.coins||0)+" 🪙";document.getElementById("walletCoins").textContent=(user?.coins||0)+" 🪙";document.getElementById("profileName").textContent=user?.name||"زائر MangaVerse";document.getElementById("profileEmail").textContent=user?.email||"أنشئ حسابك للبدء";document.getElementById("profileAvatar").textContent=user?.name?.[0]?.toUpperCase()||"؟";document.getElementById("headAvatar").textContent=user?.name?.[0]?.toUpperCase()||"؟";document.getElementById("level").textContent=user?"عضو":"زائر";document.getElementById("accountButton").textContent=user?"إدارة الحساب":"إنشاء حساب +50 🪙";document.getElementById("accountTitle").textContent=user?"حسابي":"إنشاء حساب";document.getElementById("accountForm").style.display=user?"none":"block";document.getElementById("loggedForm").style.display=user?"block":"none";if(user)document.getElementById("loggedName").textContent=user.name;document.getElementById("recent").innerHTML=mangas.slice(0,3).map(m=>`<div class="recentItem"><div class="miniCover">${cover(m)}</div><div><b style="font-size:11px">${m.title}</b><small>قراءة تجريبية</small></div></div>`).join("")}
+function openAccount(){updateProfile();document.getElementById("accountModal").classList.add("open")}
+function register(){let name=document.getElementById("username").value.trim(),email=document.getElementById("email").value.trim();if(name.length<2||!email.includes("@"))return toast("أدخل اسم مستخدم وبريداً صالحاً");user={name,email,coins:50,created:Date.now()};localStorage.setItem("mv_user",JSON.stringify(user));closeModal("accountModal");updateProfile();toast("تم إنشاء الحساب! حصلت على 50 🪙 🎉")}
+function logout(){user=null;localStorage.removeItem("mv_user");closeModal("accountModal");updateProfile();toast("تم تسجيل الخروج")}
+function closeModal(id){document.getElementById(id).classList.remove("open")}
+function openRoom(name,icon){if(!user){toast("أنشئ حساباً أولاً للمشاركة في الرومات");openAccount();return}room=name;document.getElementById("roomTitle").textContent=icon+" "+name;document.getElementById("roomModal").classList.add("open");renderMessages()}
+function renderMessages(){let arr=roomData[room]||[];document.getElementById("messages").innerHTML=arr.length?arr.map(x=>`<div class="msg"><b>${escapeHtml(x.user)}</b><p>${escapeHtml(x.text)}</p></div>`).join(""):`<p style="color:var(--muted);font-size:11px;text-align:center;margin-top:140px">لا توجد رسائل بعد. كن أول من يكتب!</p>`;let box=document.getElementById("messages");box.scrollTop=box.scrollHeight}
+function sendMessage(){if(!user)return;let input=document.getElementById("message"),text=input.value.trim();if(!text)return;(roomData[room]??=[]).push({user:user.name,text,time:Date.now()});localStorage.setItem("mv_rooms",JSON.stringify(roomData));input.value="";renderMessages();document.getElementById("roomStat").textContent=Object.values(roomData).flat().filter(x=>x.user===user.name).length}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function openReader(id,ch){current=id;chapter=ch;zoomLevel=1;let m=mangas[id];document.getElementById("readerTitle").textContent=m.title;document.getElementById("readerChapter").textContent="الفصل "+(ch+1);document.getElementById("readerCounter").textContent="الفصل "+(ch+1);document.getElementById("readerBody").innerHTML=Array.from({length:m.pages},(_,i)=>`<div class="readerPage">${pageArt(m,i+1)}</div>`).join("");document.getElementById("reader").classList.add("open");document.getElementById("readerBody").scrollTop=0;progress()}
+function closeReader(){document.getElementById("reader").classList.remove("open")}
+function prevChapter(){if(chapter>0)openReader(current,chapter-1);else toast("هذا أول فصل")}
+function nextChapter(){if(chapter<mangas[current].chapters-1)openReader(current,chapter+1);else toast("وصلت إلى آخر فصل")}
+function zoom(v){zoomLevel=Math.max(.6,Math.min(1.8,zoomLevel+v));document.querySelectorAll(".readerPage").forEach(x=>x.style.width=Math.min(850*zoomLevel,window.innerWidth*.98)+"px")}
+function resetZoom(){zoomLevel=1;document.querySelectorAll(".readerPage").forEach(x=>x.style.width="")}
+function fullScreen(){let r=document.getElementById("reader");if(!document.fullscreenElement)r.requestFullscreen?.();else document.exitFullscreen?.()}
+function progress(){let b=document.getElementById("readerBody");let max=b.scrollHeight-b.clientHeight;document.getElementById("progress").style.width=(max?b.scrollTop/max*100:0)+"%"}
+document.getElementById("readerBody").addEventListener("scroll",progress)
+function renderMini(){let m=mangas[0];document.getElementById("miniPage").innerHTML=pageArt(m,mini);document.getElementById("miniNum").textContent=mini+" / "+m.pages;document.getElementById("miniCount").textContent=mini+" / "+m.pages}
+function miniNext(){mini=mini<mangas[0].pages?mini+1:1;renderMini()}function miniPrev(){mini=mini>1?mini-1:mangas[0].pages;renderMini()}
+function buildChapters(){document.getElementById("chapters").innerHTML=Array.from({length:12},(_,i)=>{let n=12-i;return `<button class="chapter" onclick="openReader(0,${n-1})"><span>${n<=9?'🔒':'🔓'} الفصل ${n}</span><span style="color:var(--muted)">${n<=9?'مقفل':'متاح'}</span></button>`}).join("")}
+function toast(msg){let t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2300)}
+document.addEventListener("keydown",e=>{if(!document.getElementById("reader").classList.contains("open"))return;if(e.key==="Escape")closeReader();if(e.key==="ArrowLeft")nextChapter();if(e.key==="ArrowRight")prevChapter();if(e.key==="+")zoom(.1);if(e.key==="-")zoom(-.1)})
+document.getElementById("detailCover").innerHTML=cover(mangas[0]);buildChapters();renderMini();render();updateProfile();
+</script>
+</body>
+</html>
